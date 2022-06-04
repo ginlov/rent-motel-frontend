@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { Header } from "./Header";
 
 import "./styles.css";
 
-function LoginForm() {
+export function LoginForm() {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -10,29 +11,6 @@ function LoginForm() {
   const errors = {
     uname: "invalid username",
     pass: "invalid password",
-  };
-
-  const handleSubmit = (event) => {
-    //Prevent page reload
-    event.preventDefault();
-
-    var { uname, pass } = document.forms[0];
-
-    // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
-
-    // Compare user info
-    if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        setIsSubmitted(true);
-      }
-    } else {
-      // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
-    }
   };
 
   // Generate JSX code for error message
@@ -44,14 +22,14 @@ function LoginForm() {
   // JSX code for login form
   const renderForm = (
     <div className="form">
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="input-container">
-          <label>Username </label>
+          <label>Tên đăng nhập </label>
           <input type="text" name="uname" required />
           {renderErrorMessage("uname")}
         </div>
         <div className="input-container">
-          <label>Password </label>
+          <label>Mật khẩu </label>
           <input type="password" name="pass" required />
           {renderErrorMessage("pass")}
         </div>
@@ -63,11 +41,13 @@ function LoginForm() {
   );
 
   return (
-    <div className="login-form">
-      <div className="title">Sign In</div>
-      {isSubmitted ? <div>User is successfully logged in</div> : renderForm}
-    </div>
+    <>
+      <div className="wrap-login-form">
+        <div className="login-form">
+          <div className="title">Đăng nhập</div>
+          {isSubmitted ? <div>User is successfully logged in</div> : renderForm}
+        </div>
+      </div>
+    </>
   );
 }
-
-export default LoginForm;

@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.Header {
+  display: flex;
+  width: 100%;
+}
+
+.Body {
+  width: 100%;
+  background-color: rgb(169, 157, 157);
+  padding: 20px;
+}
