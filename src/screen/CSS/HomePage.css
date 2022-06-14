@@ -1,0 +1,43 @@
+.home-page {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #866e6e;
+}
+
+.title {
+  font-size: x-large;
+  margin-bottom: 20px;
+}
+
+.button-home-page {
+  background-color: white;
+  color: gray;
+  font-size: 20px;
+  padding: 10px 10px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  width: 130px;
+}
+
+.left-header {
+  display: flex;
+  justify-content: center;
+  padding: auto;
+  width: 100%;
+}
+
+.right-header {
+  display: flex;
+  width: 460px;
+}
+
+.title-web {
+  color: #14f1d7;
+  font-family: Poppins, sans-serif;
+  font-size: x-large;
+  width: 100%;
+  text-align: center;
+}

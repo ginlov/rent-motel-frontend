@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Header } from "./Header";
 
 import "./styles.css";
 
-export function LoginForm() {
+export default function LoginForm() {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);

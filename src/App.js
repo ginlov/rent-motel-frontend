@@ -10,18 +10,12 @@ import {
   NavLink,
 } from "react-router-dom";
 import { RegisterForm } from "./component/RegisterForm";
+import RootRouter from "./navigation";
 
 export function App() {
   return (
     <>
-      {/* <div className="Header">
-        <Header></Header>
-      </div>
-      <div className="Body">
-        <HomePage></HomePage>
-      </div> */}
-      {/* <LoginForm></LoginForm> */}
-      {/* <RegisterForm></RegisterForm> */}
+      <RootRouter></RootRouter>
     </>
   );
 }
