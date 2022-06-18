@@ -2,7 +2,7 @@ import * as React from "react";
 import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function NavbarWelcome() {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -10,17 +10,15 @@ export default function Navbar() {
           RENT MOTEL
         </Typography>
         <Stack direction={"row"} spacing={2}>
-          <Button color="inherit">TUNG DUONG</Button>
+          <Link to="/login" style={{ textDecoration: "none", color: "white" }}>
+            <Button color="inherit">Login</Button>
+          </Link>
           <Link
-            to="/mymotel"
+            to="/register"
             style={{ textDecoration: "none", color: "white" }}
           >
-            <Button color="inherit">My motel</Button>
+            <Button color="inherit">Register</Button>
           </Link>
-          <Link to="/search" style={{ textDecoration: "none", color: "white" }}>
-            <Button color="inherit">Search</Button>
-          </Link>
-          <Button color="inherit">Logout</Button>
         </Stack>
       </Toolbar>
     </AppBar>

@@ -110,3 +110,7 @@ input[type="submit"]:hover {
   width: 100%;
   text-align: center;
 }
+
+.title {
+  font-size: xx-large;
+}

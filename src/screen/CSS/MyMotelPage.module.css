@@ -1,0 +1,9 @@
+.wrap_item {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wrap_button {
+  margin-top: 10px;
+  margin-left: 20px;
+}

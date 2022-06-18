@@ -1,12 +1,12 @@
 import * as React from "react";
 import Navbar from "../component/NavbarWelcome";
-import LoginForm from "../component/LoginForm";
+import { RegisterForm } from "../component/RegisterForm";
 
 export default function LoginPage() {
   return (
     <>
       <Navbar />
-      <LoginForm />
+      <RegisterForm />
     </>
   );
 }

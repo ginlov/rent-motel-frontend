@@ -1,0 +1,15 @@
+.search {
+  display: flex;
+}
+
+.wrap_search {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.wrap_result {
+  display: flex;
+  flex-wrap: wrap;
+}

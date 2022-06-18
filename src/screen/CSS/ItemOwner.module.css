@@ -1,0 +1,43 @@
+.item_image {
+  width: 500px;
+}
+
+.wrap_button {
+  margin-top: 10px;
+  margin-left: 100px;
+}
+
+.item_information {
+  display: flex;
+}
+
+.item_information_left {
+  padding-left: 100px;
+  padding-top: 50px;
+  width: 50%;
+}
+
+.item_information_right {
+  padding-top: 50px;
+  width: 50%;
+  padding-right: 100px;
+}
+
+.item_address {
+  font-size: xx-large;
+  color: #0aae9b;
+  margin-bottom: 10px;
+}
+
+.item_area {
+  font-size: xx-large;
+  color: grey;
+}
+
+.item_price {
+  font-family: Poppins, sans-serif;
+  font-size: xx-large;
+  line-height: 1.3;
+  color: gray;
+  margin-bottom: 10px;
+}

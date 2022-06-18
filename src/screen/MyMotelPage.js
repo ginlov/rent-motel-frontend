@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ItemHomePage } from "../component/ItemHomePage";
-import Navbar from "../component/Navbar";
+import Navbar from "../component/NavbarOwner";
+import Button from "@mui/material/Button";
+import styles from "./CSS/MyMotelPage.module.css";
 
 const listItem = [
   { id: 1 },
@@ -20,7 +22,17 @@ export default function MyMotelPage() {
   return (
     <>
       <Navbar />
-      <div className="home-page">
+      <div className={styles.wrap_button}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            alert("clicked");
+          }}
+        >
+          Thêm nhà trọ
+        </Button>
+      </div>
+      <div className={styles.wrap_item}>
         {listItem.map((item) => {
           return <ItemHomePage></ItemHomePage>;
         })}
