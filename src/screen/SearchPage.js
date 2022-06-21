@@ -2,7 +2,7 @@ import * as React from "react";
 import Navbar from "../component/NavbarOwner";
 import styles from "./CSS/SearchPage.module.css";
 import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
+import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuItem from "@mui/material/MenuItem";
@@ -60,10 +60,11 @@ export default function SearchPage() {
               </Select>
             </FormControl>
           </Box>
-          <InputBase
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="  Search..."
-            inputProps={{ "aria-label": "search" }}
+          <TextField
+            id="outlined-basic"
+            label="Search"
+            variant="outlined"
+            sx={{ marginLeft: "10px", width: "500px", height: "65px" }}
           />
           <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
             <SearchIcon />

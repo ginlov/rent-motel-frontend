@@ -14,6 +14,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import MockupConfirm from "../component/MockupConfirm";
+import MockupEditMotel from "../component/MockupItemOwner";
 
 function createData(name, detail) {
   return { name, detail };
@@ -28,14 +30,23 @@ const rows = [
 ];
 
 export default function ItemOwner() {
+  const [openFormEdit, setOpenFormEdit] = React.useState(false);
+  const [openConfirmMockup, setOpenConfirmMockup] = React.useState(false);
   return (
     <>
       <Navbar />
+      <MockupEditMotel callback={setOpenFormEdit} status={openFormEdit} />;
+      <MockupConfirm
+        callback={setOpenConfirmMockup}
+        status={openConfirmMockup}
+        content="Bạn có muốn xoá nhà trọ không?"
+      />
       <Stack
         direction="row"
         spacing={2}
         justifyContent="center"
         alignItems="center"
+        sx={{ marginTop: "10px" }}
       >
         <img className={styles.item_image} src={image} alt=""></img>
         <img className={styles.item_image} src={image} alt=""></img>
@@ -45,7 +56,7 @@ export default function ItemOwner() {
         <Button
           variant="contained"
           onClick={() => {
-            alert("clicked");
+            setOpenFormEdit(true);
           }}
         >
           Sửa nhà trọ
@@ -55,7 +66,7 @@ export default function ItemOwner() {
         <Button
           variant="contained"
           onClick={() => {
-            alert("clicked");
+            setOpenConfirmMockup(true);
           }}
           style={{
             backgroundColor: "red",
@@ -97,10 +108,10 @@ export default function ItemOwner() {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="center" sx={{ fontSize: "x-large" }}>
+                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
                     Danh mục
                   </TableCell>
-                  <TableCell align="center" sx={{ fontSize: "x-large" }}>
+                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
                     Thông tin
                   </TableCell>
                 </TableRow>
@@ -111,10 +122,17 @@ export default function ItemOwner() {
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row" align="center">
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="center"
+                      sx={{ fontSize: "x-large" }}
+                    >
                       {row.name}
                     </TableCell>
-                    <TableCell align="center">{row.detail}</TableCell>
+                    <TableCell align="center" sx={{ fontSize: "x-large" }}>
+                      {row.detail}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
