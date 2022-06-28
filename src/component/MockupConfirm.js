@@ -25,7 +25,6 @@ export default function MockupConfirm(props) {
   return (
     <Modal
       open={props.status}
-      // onClose={() => handleClose()}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >

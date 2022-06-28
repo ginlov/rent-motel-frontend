@@ -15,7 +15,7 @@ import RootRouter from "./navigation";
 export function App() {
   return (
     <>
-      <RootRouter></RootRouter>
+      <RootRouter />
     </>
   );
 }

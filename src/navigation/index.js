@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { RegisterForm } from "../component/RegisterForm";
-import HomePageOwner from "../screen/HomePageOwner";
+import OwnerPage from "../screen/OwnerPage/OwnerPage";
 import LoginPage from "../screen/LoginPage";
 import SearchPage from "../screen/SearchPage";
 import MyMotelPage from "../screen/MyMotelPage";
@@ -17,6 +17,7 @@ export default function RootRouter() {
       <Route path="/search" element={<SearchPage></SearchPage>}></Route>
       <Route path="/mymotel" element={<MyMotelPage></MyMotelPage>}></Route>
       <Route path="/itemOwner" element={<ItemOwner></ItemOwner>}></Route>
+      <Route path="/owner" element={<OwnerPage></OwnerPage>}></Route>
     </Routes>
   );
 }

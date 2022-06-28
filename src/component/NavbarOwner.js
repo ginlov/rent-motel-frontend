@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 
 export default function NavbarOwner() {
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ boxShadow: "none" }}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           RENT MOTEL
         </Typography>
         <Stack direction={"row"} spacing={2}>
-          <Button color="inherit">TUNG DUONG</Button>
+          <Link to="/owner" style={{ textDecoration: "none", color: "white" }}>
+            <Button color="inherit">TUNG DUONG</Button>
+          </Link>
           <Link
             to="/mymotel"
             style={{ textDecoration: "none", color: "white" }}
