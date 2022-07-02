@@ -1,5 +1,4 @@
 import * as React from "react";
-import Navbar from "../component/NavbarOwner";
 import styles from "./CSS/SearchPage.module.css";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -10,6 +9,7 @@ import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import NavbarRenter from "../component/NavbarRenter";
 import { ItemHomePage } from "../component/ItemHomePage";
 
 const listItem = [
@@ -33,7 +33,7 @@ export default function SearchPage() {
   };
   return (
     <>
-      <Navbar />
+      <NavbarRenter />
       <div className={styles.wrap_search}>
         <Paper
           component="form"

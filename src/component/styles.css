@@ -65,6 +65,10 @@ input[type="submit"]:hover {
   height: 400px;
 }
 
+.item-home-page:hover {
+  cursor: pointer;
+}
+
 .image-item-home-page {
   width: 363px;
 }

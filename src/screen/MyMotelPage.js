@@ -1,27 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ItemHomePage } from "../component/ItemHomePage";
-import Navbar from "../component/NavbarOwner";
+import { ItemOwner } from "../component/ItemOwner";
+import NavbarOwner from "../component/NavbarOwner";
 import Button from "@mui/material/Button";
 import styles from "./CSS/MyMotelPage.module.css";
-
-const listItem = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-  { id: 7 },
-  { id: 8 },
-  { id: 9 },
-  { id: 10 },
-];
+import axios from "../api";
+import { Navigate } from "react-router-dom";
 
 export default function MyMotelPage() {
+  const [listMotel, setListMotel] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/motels?order-by=price-desc&limit=2&offset=1")
+      .then((response) => {
+        setListMotel(response.data.data);
+      });
+  }, []);
   return (
     <>
-      <Navbar />
+      <NavbarOwner />
       <div className={styles.wrap_button}>
         <Button
           variant="contained"
@@ -33,8 +31,17 @@ export default function MyMotelPage() {
         </Button>
       </div>
       <div className={styles.wrap_item}>
-        {listItem.map((item) => {
-          return <ItemHomePage></ItemHomePage>;
+        {listMotel.map((item) => {
+          return (
+            <ItemOwner
+              key={item.id}
+              item_id={item.id}
+              item_title={item.summary}
+              item_address={item.address.city}
+              item_price={item.price}
+              item_area={item.square}
+            ></ItemOwner>
+          );
         })}
       </div>
     </>

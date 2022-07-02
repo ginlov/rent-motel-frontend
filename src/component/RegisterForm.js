@@ -171,7 +171,7 @@ export function RegisterForm() {
               onChange={(e) => setRole(e.target.value)}
             >
               <MenuItem value={"RENTER"}>Người thuê trọ</MenuItem>
-              <MenuItem value={""}>Chủ nhà trọ</MenuItem>
+              <MenuItem value={"OWNER"}>Chủ nhà trọ</MenuItem>
             </Select>
           </FormControl>
         </Box>

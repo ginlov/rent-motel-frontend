@@ -3,7 +3,6 @@ import "./styles.css";
 import axios from "../api";
 import Button from "@mui/material/Button";
 import { Navigate } from "react-router-dom";
-import { RepeatOneSharp } from "@material-ui/icons";
 
 async function Login(username, password, goToHomePage, setError) {
   const response = await axios.post("/auth/login", {
@@ -18,6 +17,7 @@ async function Login(username, password, goToHomePage, setError) {
     axios.defaults.headers.common = {
       Authorization: `bearer ${response.data.data.accessToken}`,
     };
+    localStorage.setItem("token", response.data.data.accessToken);
     const response1 = await axios.get("/users/me");
     goToHomePage(response1.data.data.role.name);
   }
@@ -89,7 +89,8 @@ export default function LoginForm() {
           {error != "" && <p>{error}</p>}
         </div>
       </div>
-      {role == "RENTER" && <Navigate to="/owner" replace={true} />}
+      {role == "OWNER" && <Navigate to="/owner" replace={true} />}
+      {role == "RENTER" && <Navigate to="/renter" replace={true} />}
     </>
   );
 }

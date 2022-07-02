@@ -7,6 +7,7 @@ import MyMotelPage from "../screen/MyMotelPage";
 import WelcomePage from "../screen/WelcomePage";
 import RegisterPage from "../screen/RegisterPage";
 import ItemOwner from "../screen/ItemOwner";
+import RenterPage from "../screen/RenterPage/RenterPage";
 
 export default function RootRouter() {
   return (
@@ -16,8 +17,9 @@ export default function RootRouter() {
       <Route path="/register" element={<RegisterPage></RegisterPage>}></Route>
       <Route path="/search" element={<SearchPage></SearchPage>}></Route>
       <Route path="/mymotel" element={<MyMotelPage></MyMotelPage>}></Route>
-      <Route path="/itemOwner" element={<ItemOwner></ItemOwner>}></Route>
+      <Route path="/itemOwner/:id" element={<ItemOwner></ItemOwner>}></Route>
       <Route path="/owner" element={<OwnerPage></OwnerPage>}></Route>
+      <Route path="/renter" element={<RenterPage></RenterPage>}></Route>
     </Routes>
   );
 }

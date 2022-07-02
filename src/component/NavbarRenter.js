@@ -2,7 +2,7 @@ import * as React from "react";
 import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
-export default function NavbarOwner(props) {
+export default function NavbarRenter(props) {
   return (
     <AppBar position="static" sx={{ boxShadow: "none" }}>
       <Toolbar>
@@ -10,14 +10,11 @@ export default function NavbarOwner(props) {
           RENT MOTEL
         </Typography>
         <Stack direction={"row"} spacing={2}>
-          <Link to="/owner" style={{ textDecoration: "none", color: "white" }}>
+          <Link to="/renter" style={{ textDecoration: "none", color: "white" }}>
             <Button color="inherit">TUNG DUONG</Button>
           </Link>
-          <Link
-            to="/mymotel"
-            style={{ textDecoration: "none", color: "white" }}
-          >
-            <Button color="inherit">My motel</Button>
+          <Link to="/search" style={{ textDecoration: "none", color: "white" }}>
+            <Button color="inherit">Search</Button>
           </Link>
           <Link to="/" style={{ textDecoration: "none", color: "white" }}>
             <Button color="inherit">Logout</Button>

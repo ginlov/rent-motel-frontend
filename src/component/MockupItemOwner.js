@@ -36,14 +36,37 @@ export default function MockupEditMotel(props) {
         </Typography>
         <TextField
           id="outlined-basic"
+          label="Tên phòng trọ"
+          variant="outlined"
+          fullWidth="100"
+          defaultValue={props.motelDetail.summary}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Mô tả"
+          variant="outlined"
+          fullWidth="100"
+          defaultValue={props.motelDetail.description}
+        />
+        <TextField
+          id="outlined-basic"
           label="Giá thuê"
           variant="outlined"
           fullWidth="100"
+          defaultValue={props.motelDetail.price}
         />
-        <TextField id="outlined-basic" label="Giá điện" variant="outlined" />
-        <TextField id="outlined-basic" label="Giá nước" variant="outlined" />
-        <TextField id="outlined-basic" label="Điều hoà" variant="outlined" />
-        <TextField id="outlined-basic" label="Giường" variant="outlined" />
+        <TextField
+          id="outlined-basic"
+          label="Giá điện"
+          variant="outlined"
+          defaultValue={props.motelDetail.electricPrice}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Giá nước"
+          variant="outlined"
+          defaultValue={props.motelDetail.waterPrice}
+        />
         <Stack spacing={2} direction="row" justifyContent="center">
           <Button variant="contained">Thay đổi</Button>
           <Button variant="contained" onClick={() => handleClose()}>

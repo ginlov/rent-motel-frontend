@@ -4,7 +4,6 @@
 
 .wrap_button {
   margin-top: 10px;
-  margin-left: 100px;
 }
 
 .item_information {
@@ -39,5 +38,11 @@
   font-size: xx-large;
   line-height: 1.3;
   color: gray;
+  margin-bottom: 10px;
+}
+
+.item_person {
+  font-size: xx-large;
+  color: #0aae9b;
   margin-bottom: 10px;
 }
