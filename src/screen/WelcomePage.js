@@ -19,7 +19,6 @@ const listItem = [
 export default function WelcomePage() {
   return (
     <>
-      <Navbar />
       <div className={styles.wrap_item}>
         {listItem.map((item) => {
           return <ItemHomePage></ItemHomePage>;

@@ -7,6 +7,7 @@ import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import axios from "../api";
 import { Navigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 import "./styles.css";
 
 async function Register(
@@ -19,7 +20,9 @@ async function Register(
   ward,
   detail,
   role,
-  setIsSuccess
+  setIsSuccess,
+  fisrtName,
+  lastName
 ) {
   var body = {
     email: email,
@@ -33,11 +36,14 @@ async function Register(
       detail: detail,
     },
     role: role,
+    firstName: fisrtName,
+    lastName: lastName,
   };
   console.log(body);
   const response = await axios.post("/auth/register", body);
   console.log(response);
   if (response.data.statusCode == 201) {
+    console.log(response.data.statusCode);
     setIsSuccess(true);
   }
 }
@@ -56,6 +62,8 @@ export function RegisterForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const errors = {
     uname: "invalid username",
@@ -72,6 +80,26 @@ export function RegisterForm() {
   const renderForm = (
     <div className="form">
       <form>
+        <div className="input-container">
+          <label>Tên </label>
+          <input
+            type="text"
+            name="pass"
+            required
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          {renderErrorMessage("pass")}
+        </div>
+        <div className="input-container">
+          <label>Họ </label>
+          <input
+            type="text"
+            name="pass"
+            required
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          {renderErrorMessage("pass")}
+        </div>
         <div className="input-container">
           <label>Email </label>
           <input
@@ -102,16 +130,7 @@ export function RegisterForm() {
           />
           {renderErrorMessage("pass")}
         </div>
-        <div className="input-container">
-          <label>Giới tính </label>
-          <input
-            type="text"
-            name="pass"
-            required
-            onChange={(e) => setGender(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
+
         <div className="input-container">
           <label>Thành phố </label>
           <input
@@ -162,6 +181,30 @@ export function RegisterForm() {
               marginTop: "10px",
             }}
           >
+            <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={gender}
+              label="Giới tính"
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <MenuItem value={"MALE"}>Nam</MenuItem>
+              <MenuItem value={"FEMALE"}>Nữ</MenuItem>
+              <MenuItem value={"OTHER"}>Khác</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl
+            fullWidth
+            sx={{
+              width: "98%",
+              marginLeft: "10px",
+              marginBottom: "20px",
+              marginTop: "10px",
+            }}
+          >
             <InputLabel id="demo-simple-select-label">Vai trò</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -189,7 +232,9 @@ export function RegisterForm() {
                 ward,
                 detail,
                 role,
-                setIsSuccess
+                setIsSuccess,
+                firstName,
+                lastName
               );
             }}
           >
@@ -208,6 +253,11 @@ export function RegisterForm() {
           {isSubmitted ? <div>User is successfully logged in</div> : renderForm}
         </div>
       </div>
+      {isSuccess && (
+        <Alert severity="success">
+          This is a success alert — check it out!
+        </Alert>
+      )}
       {isSuccess && <Navigate to="/login" replace={true} />}
     </>
   );

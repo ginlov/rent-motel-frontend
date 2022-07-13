@@ -6,7 +6,6 @@ import Sidebar from "./SideBar";
 export default function HomePageOwner() {
   return (
     <>
-      <NavbarOwner />
       <Sidebar />
       <ChatWindow />
     </>

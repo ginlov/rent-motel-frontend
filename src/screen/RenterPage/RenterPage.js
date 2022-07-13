@@ -5,7 +5,6 @@ import Sidebar from "./SideBar";
 export default function HomePageRenter() {
   return (
     <>
-      <NavbarRenter />
       <Sidebar />
     </>
   );

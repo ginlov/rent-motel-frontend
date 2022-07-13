@@ -33,7 +33,6 @@ export default function SearchPage() {
   };
   return (
     <>
-      <NavbarRenter />
       <div className={styles.wrap_search}>
         <Paper
           component="form"

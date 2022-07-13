@@ -46,7 +46,6 @@ export default function ItemOwner() {
 
   return (
     <>
-      <Navbar />
       <MockupEditMotel
         callback={setOpenFormEdit}
         status={openFormEdit}

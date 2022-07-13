@@ -1,6 +1,8 @@
 import * as React from "react";
 import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import axios from "../api";
+import { useEffect, useState } from "react";
 
 export default function NavbarOwner(props) {
   return (
@@ -11,7 +13,7 @@ export default function NavbarOwner(props) {
         </Typography>
         <Stack direction={"row"} spacing={2}>
           <Link to="/owner" style={{ textDecoration: "none", color: "white" }}>
-            <Button color="inherit">TUNG DUONG</Button>
+            <Button color="inherit">{props.name}</Button>
           </Link>
           <Link
             to="/mymotel"
@@ -19,7 +21,14 @@ export default function NavbarOwner(props) {
           >
             <Button color="inherit">My motel</Button>
           </Link>
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+          <Link
+            to="/"
+            style={{ textDecoration: "none", color: "white" }}
+            onClick={() => {
+              localStorage.removeItem("token");
+              props.callBack("");
+            }}
+          >
             <Button color="inherit">Logout</Button>
           </Link>
         </Stack>

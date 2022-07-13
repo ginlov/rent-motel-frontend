@@ -5,10 +5,12 @@ import NavbarOwner from "../component/NavbarOwner";
 import Button from "@mui/material/Button";
 import styles from "./CSS/MyMotelPage.module.css";
 import axios from "../api";
+import MockupAddMotel from "../component/MockupAddMotel";
 import { Navigate } from "react-router-dom";
 
 export default function MyMotelPage() {
   const [listMotel, setListMotel] = useState([]);
+  const [openFormAddMotel, setOpenFormAddMotel] = useState(false);
 
   useEffect(() => {
     axios
@@ -19,12 +21,15 @@ export default function MyMotelPage() {
   }, []);
   return (
     <>
-      <NavbarOwner />
+      <MockupAddMotel
+        callback={setOpenFormAddMotel}
+        status={openFormAddMotel}
+      />
       <div className={styles.wrap_button}>
         <Button
           variant="contained"
           onClick={() => {
-            alert("clicked");
+            setOpenFormAddMotel(true);
           }}
         >
           Thêm nhà trọ
