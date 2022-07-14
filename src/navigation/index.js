@@ -2,6 +2,7 @@ import { Route, Routes, Switch } from "react-router-dom";
 import { RegisterForm } from "../component/RegisterForm";
 import OwnerPage from "../screen/OwnerPage/OwnerPage";
 import LoginPage from "../screen/LoginPage";
+import AdminPage from "../screen/AdminPage/AdminPage";
 import SearchPage from "../screen/SearchPage";
 import MyMotelPage from "../screen/MyMotelPage";
 import WelcomePage from "../screen/WelcomePage";
@@ -12,6 +13,7 @@ import NavbarOwner from "../component/NavbarOwner";
 import OwnerLayout from "../layout/OwnerLayout";
 import RenterLayout from "../layout/RenterLayout";
 import WelcomeLayout from "../layout/WelcomLayout";
+import AdminLayout from "../layout/AdminLayout"
 
 export default function RootRouter() {
   return (
@@ -75,6 +77,14 @@ export default function RootRouter() {
               <RegisterPage />
             </WelcomeLayout>
           }
+        ></Route>
+        <Route
+            path="/admin"
+            element={
+            <AdminLayout>
+                <AdminPage />
+            </AdminLayout>
+            }
         ></Route>
       </Routes>
     </>
