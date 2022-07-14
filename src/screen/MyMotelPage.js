@@ -45,6 +45,7 @@ export default function MyMotelPage() {
               item_address={item.address.city}
               item_price={item.price}
               item_area={item.square}
+              item_image={item.imageUrl}
             ></ItemOwner>
           );
         })}

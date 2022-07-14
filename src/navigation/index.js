@@ -12,6 +12,8 @@ import NavbarOwner from "../component/NavbarOwner";
 import OwnerLayout from "../layout/OwnerLayout";
 import RenterLayout from "../layout/RenterLayout";
 import WelcomeLayout from "../layout/WelcomLayout";
+import UploadImage from "../component/UploadImage";
+import ItemRenter from "../screen/ItemRenter";
 
 export default function RootRouter() {
   return (
@@ -25,7 +27,14 @@ export default function RootRouter() {
             </OwnerLayout>
           }
         ></Route>
-        <Route path="/itemOwner/:id" element={<ItemOwner></ItemOwner>}></Route>
+        <Route
+          path="/itemOwner/:id"
+          element={
+            <OwnerLayout>
+              <ItemOwner />
+            </OwnerLayout>
+          }
+        ></Route>
         <Route
           path="/owner"
           element={

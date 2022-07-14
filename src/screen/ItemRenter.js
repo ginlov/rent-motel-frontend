@@ -20,24 +20,42 @@ import MockupEditMotel from "../component/MockupItemOwner";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 import axios from "../api";
-import MockupAddUtility from "../component/MockupAddUtility";
 
 function createData(name, detail) {
   return { name, detail };
 }
 
-export default function ItemOwner() {
+const motelFix = {
+  id: "aef39d5b-690c-4c8c-8dbd-6924179740e0",
+  imageUrl:
+    "http://xaydungthuanphuoc.com/upload/Images/H%C3%8CNH%20C%E1%BB%A6A%20GIANG/ph%C3%B2ng%20tr%E1%BB%8D%20c%C3%B3%20g%C3%A1c/mau-phong-tro-co-gac-lung-dep%20(22).jpg",
+  price: 500,
+  address: {
+    city: "Ha Noi",
+    district: "Hai Bà Trưng",
+    ward: "Bách Khoa",
+    detail: "Số 23 Trần Đại Nghĩa",
+  },
+  renterMotel: null,
+  motelUtilities: [],
+  waterPrice: 15000,
+  electricPrice: 12,
+  square: 25,
+  summary: "Phong tro gia re",
+  description: "Gia phong tro rat re",
+};
+
+export default function ItemRenter() {
   const [openFormEdit, setOpenFormEdit] = React.useState(false);
   const [openConfirmMockup, setOpenConfirmMockup] = React.useState(false);
-  const [motelDetail, setMotelDetail] = React.useState();
-  const [openAddMockup, setOpenAddMockup] = React.useState(false);
+  const [motelDetail, setMotelDetail] = React.useState(motelFix);
   const { id } = useParams();
-  React.useEffect(() => {
-    axios.get(`/motels/${id}`).then((response) => {
-      setMotelDetail(response.data.data);
-      console.log(motelDetail);
-    });
-  }, []);
+  //   React.useEffect(() => {
+  //     axios.get(`/motels/${id}`).then((response) => {
+  //       setMotelDetail(response.data.data);
+  //       console.log(motelDetail);
+  //     });
+  //   }, []);
   if (motelDetail === undefined) {
     return <>Still loading...</>;
   }
@@ -57,11 +75,6 @@ export default function ItemOwner() {
         callback={setOpenConfirmMockup}
         status={openConfirmMockup}
         content="Bạn có muốn xoá nhà trọ không?"
-      />
-      <MockupAddUtility
-        callback={setOpenAddMockup}
-        status={openAddMockup}
-        motelId={id}
       />
       <Typography
         align="center"
@@ -98,30 +111,13 @@ export default function ItemOwner() {
       <div className={styles.item_information}>
         <div className={styles.item_information_left}>
           <div className={styles.wrap_button}>
-            <Button variant="contained">Đăng thông tin phòng trọ</Button>
+            <Button variant="contained">Thuê phòng</Button>
           </div>
           <div className={styles.wrap_button}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setOpenFormEdit(true);
-              }}
-            >
-              Sửa nhà trọ
-            </Button>
+            <Button variant="contained">Liên hệ với chủ nhà trọ</Button>
           </div>
           <div className={styles.wrap_button}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setOpenConfirmMockup(true);
-              }}
-              style={{
-                backgroundColor: "red",
-              }}
-            >
-              Xoá nhà trọ
-            </Button>
+            <Button variant="contained">Liên hệ với quản trị viên</Button>
           </div>
           <div className={styles.item_address}>
             <img
@@ -145,24 +141,8 @@ export default function ItemOwner() {
             ></img>
             {motelDetail.square}m2
           </div>
-          <div className={styles.item_person}>
-            <img
-              src={personIcon}
-              style={{ width: "20px", marginRight: "10px" }}
-            ></img>
-            {motelDetail.renterMotel}
-          </div>
         </div>
         <div className={styles.item_information_right}>
-          <Button
-            variant="contained"
-            sx={{ marginBottom: "15px" }}
-            onClick={() => {
-              setOpenAddMockup(true);
-            }}
-          >
-            Thêm thiết bị
-          </Button>
           <TableContainer component={Paper}>
             <Table
               sx={{ minWidth: 100 }}

@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import axios from "../api";
+import UploadImage from "./UploadImage";
 
 async function AddMotel(
   price,
@@ -19,8 +20,15 @@ async function AddMotel(
   summary,
   description,
   square,
-  setIsSuccess
+  setIsSuccess,
+  image
 ) {
+  var bodyFormData = new FormData();
+  bodyFormData.append("image", image);
+  const responseImage = await axios.post("/motels/upload-image", bodyFormData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  const imageUrl = responseImage.data.data.imageUrl;
   var body = {
     price: Number(price),
     waterPrice: Number(waterPrice),
@@ -34,6 +42,7 @@ async function AddMotel(
     },
     description: description,
     square: Number(square),
+    imageUrl: imageUrl,
   };
   console.log(body);
   const response = await axios.post("/motels", body);
@@ -67,6 +76,7 @@ export default function MockupAddMotel(props) {
   const [ward, setWard] = useState("");
   const [detail, setDetail] = useState("");
   const [square, setSquare] = useState();
+  const [image, setImage] = useState();
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleClose = () => {
@@ -165,6 +175,7 @@ export default function MockupAddMotel(props) {
                 setDetail(e.target.value);
               }}
             />
+            <UploadImage setImage={setImage}></UploadImage>
           </div>
         </div>
 
@@ -188,7 +199,8 @@ export default function MockupAddMotel(props) {
                 summary,
                 description,
                 square,
-                setIsSuccess
+                setIsSuccess,
+                image
               );
             }}
           >
