@@ -12,6 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+async function addUtility()
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -27,6 +29,7 @@ const style = {
 
 export default function MockupAddUtility(props) {
   const [utility, setUtility] = useState("");
+  const[quantity, setQuantity] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleClose = () => {
@@ -76,6 +79,14 @@ export default function MockupAddUtility(props) {
             Bàn
           </MenuItem>
         </Select>
+        <TextField
+              id="outlined-basic"
+              label="Số lượng"
+              variant="outlined"
+              onChange={(e) => {
+                setSummary(e.target.value);
+              }}
+            />
         <Stack
           spacing={2}
           direction="row"

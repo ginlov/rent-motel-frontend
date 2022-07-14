@@ -5,7 +5,6 @@ import { RegisterForm } from "../component/RegisterForm";
 export default function LoginPage() {
   return (
     <>
-      <Navbar />
       <RegisterForm />
     </>
   );
