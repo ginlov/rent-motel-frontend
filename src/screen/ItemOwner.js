@@ -26,6 +26,13 @@ function createData(name, detail) {
   return { name, detail };
 }
 
+function createDataUtility(name, quantity, status) {
+  var status1;
+  if (status == 1) status1 = "Tốt";
+  else status1 = "Hỏng";
+  return { name, quantity, status1 };
+}
+
 export default function ItemOwner() {
   const [openFormEdit, setOpenFormEdit] = React.useState(false);
   const [openConfirmMockup, setOpenConfirmMockup] = React.useState(false);
@@ -46,6 +53,15 @@ export default function ItemOwner() {
     createData("Giá nước", motelDetail.waterPrice),
   ];
 
+  var rowsUtility = [];
+  motelDetail.motelUtilities.forEach((element) => {
+    var row = createDataUtility(
+      element.utility.type,
+      element.quantity,
+      element.status
+    );
+    rowsUtility.push(row);
+  });
   return (
     <>
       <MockupEditMotel
@@ -195,6 +211,51 @@ export default function ItemOwner() {
                     </TableCell>
                     <TableCell align="center" sx={{ fontSize: "x-large" }}>
                       {row.detail}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ minWidth: 100 }}
+              size="small"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
+                    Thiết bị
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
+                    Số lượng
+                  </TableCell>
+                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
+                    Tình trạng
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rowsUtility.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="center"
+                      sx={{ fontSize: "x-large" }}
+                    >
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontSize: "x-large" }}>
+                      {row.quantity}
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontSize: "x-large" }}>
+                      {row.status1}
                     </TableCell>
                   </TableRow>
                 ))}

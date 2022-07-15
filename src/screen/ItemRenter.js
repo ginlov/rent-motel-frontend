@@ -66,16 +66,6 @@ export default function ItemRenter() {
 
   return (
     <>
-      <MockupEditMotel
-        callback={setOpenFormEdit}
-        status={openFormEdit}
-        motelDetail={motelDetail}
-      />
-      <MockupConfirm
-        callback={setOpenConfirmMockup}
-        status={openConfirmMockup}
-        content="Bạn có muốn xoá nhà trọ không?"
-      />
       <Typography
         align="center"
         variant="h3"

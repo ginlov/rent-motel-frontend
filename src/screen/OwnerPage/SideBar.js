@@ -11,11 +11,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import ForumIcon from "@mui/icons-material/Forum";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import InsightsIcon from "@mui/icons-material/Insights";
 
 const drawerWidth = 240;
-export default function Sidebar() {
+export default function Sidebar(props) {
   return (
     <>
       <Drawer
@@ -37,32 +38,26 @@ export default function Sidebar() {
         <Toolbar />
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {["Trò chuyện", "Thông tin cá nhân", "Thống kê"].map(
+            (text, index) => (
+              <ListItem
+                key={text}
+                disablePadding
+                onClick={() => props.callBack(index)}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    {index % 3 === 0 && <ForumIcon />}
+                    {index % 3 === 1 && <AccountCircleIcon />}
+                    {index % 3 === 2 && <InsightsIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            )
+          )}
         </List>
       </Drawer>
-      ;
     </>
   );
 }

@@ -22,11 +22,5 @@ const listChatMessages = [
 ];
 
 export default function ChatWindow() {
-  return (
-    <>
-      <Grid container spacing={4} alignItems="center">
-        alo alo
-      </Grid>
-    </>
-  );
+  return <>Chat</>;
 }

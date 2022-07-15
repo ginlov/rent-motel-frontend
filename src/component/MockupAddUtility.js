@@ -11,8 +11,29 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Navigate } from "react-router-dom";
 
-async function addUtility()
+async function addUtility(
+  utilityId,
+  motelId,
+  quantity,
+  handleClose,
+  setIsSuccess
+) {
+  const body = {
+    motelId: motelId,
+    utilityId: utilityId,
+    status: 1,
+    quantity: Number(quantity),
+  };
+  console.log(body);
+  const response = await axios.post("/motel-utility", body);
+  console.log(response);
+  if (response.status == 201) {
+    handleClose();
+    window.location.reload();
+  }
+}
 
 const style = {
   position: "absolute",
@@ -29,8 +50,7 @@ const style = {
 
 export default function MockupAddUtility(props) {
   const [utility, setUtility] = useState("");
-  const[quantity, setQuantity] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [quantity, setQuantity] = useState("");
 
   const handleClose = () => {
     props.callback(false);
@@ -51,7 +71,7 @@ export default function MockupAddUtility(props) {
           value={utility}
           label="Thiết bị"
           onChange={(e) => setUtility(e.target.value)}
-          sx={{ minWidth: 300 }}
+          sx={{ minWidth: 300, marginLeft: 1 }}
         >
           <MenuItem value={"13b576a7-449e-46dc-bf59-d026cef20b9d"}>
             Bếp
@@ -80,20 +100,28 @@ export default function MockupAddUtility(props) {
           </MenuItem>
         </Select>
         <TextField
-              id="outlined-basic"
-              label="Số lượng"
-              variant="outlined"
-              onChange={(e) => {
-                setSummary(e.target.value);
-              }}
-            />
+          id="outlined-basic"
+          label="Số lượng"
+          variant="outlined"
+          onChange={(e) => {
+            setQuantity(e.target.value);
+          }}
+          sx={{ maxWidth: "300px" }}
+        />
         <Stack
           spacing={2}
           direction="row"
           justifyContent="center"
           sx={{ marginTop: "10px" }}
         >
-          <Button variant="contained">Thêm thiết bị</Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              addUtility(utility, props.motelId, quantity, handleClose);
+            }}
+          >
+            Thêm thiết bị
+          </Button>
           <Button variant="contained" onClick={() => handleClose()}>
             Huỷ
           </Button>
