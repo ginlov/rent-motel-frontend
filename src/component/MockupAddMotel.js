@@ -21,7 +21,8 @@ async function AddMotel(
   description,
   square,
   setIsSuccess,
-  image
+  image,
+  handleClose
 ) {
   var bodyFormData = new FormData();
   bodyFormData.append("image", image);
@@ -47,8 +48,10 @@ async function AddMotel(
   console.log(body);
   const response = await axios.post("/motels", body);
   console.log(response);
-  if (response.data.statusCode === 200) {
+  if (response.data.statusCode === 201) {
     setIsSuccess(true);
+    handleClose(false);
+    window.location.reload();
   }
 }
 
@@ -200,7 +203,8 @@ export default function MockupAddMotel(props) {
                 description,
                 square,
                 setIsSuccess,
-                image
+                image,
+                handleClose
               );
             }}
           >

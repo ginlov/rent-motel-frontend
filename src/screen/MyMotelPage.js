@@ -14,7 +14,7 @@ export default function MyMotelPage() {
 
   useEffect(() => {
     axios
-      .get("/motels?order-by=price-desc&limit=2&offset=1")
+      .get("/motels?order-by=price-desc&limit=20&offset=1")
       .then((response) => {
         setListMotel(response.data.data);
       });

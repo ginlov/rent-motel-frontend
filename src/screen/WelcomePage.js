@@ -1,7 +1,5 @@
 import * as React from "react";
-import Navbar from "../component/NavbarWelcome";
-import styles from "./CSS/WelcomePage.module.css";
-import { ItemHomePage } from "../component/ItemHomePage";
+import WelcomeImage from "../image/WelcomeImage.jpg";
 
 const listItem = [
   { id: 1 },
@@ -19,11 +17,7 @@ const listItem = [
 export default function WelcomePage() {
   return (
     <>
-      <div className={styles.wrap_item}>
-        {listItem.map((item) => {
-          return <ItemHomePage></ItemHomePage>;
-        })}
-      </div>
+      <img src={WelcomeImage} alt="" style={{ width: "100%" }}></img>
     </>
   );
 }
