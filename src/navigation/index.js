@@ -61,6 +61,14 @@ export default function RootRouter() {
             </RenterLayout>
           }
         ></Route>
+        <Route
+          path="/itemRenter/:id"
+          element={
+            <RenterLayout>
+              <ItemRenter />
+            </RenterLayout>
+          }
+        ></Route>
 
         <Route
           path="/"

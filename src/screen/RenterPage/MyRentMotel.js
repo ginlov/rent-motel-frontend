@@ -1,13 +1,10 @@
 import * as React from "react";
-import Navbar from "../component/NavbarOwner";
 import Stack from "@mui/material/Stack";
-import image from "../image/phong-tro-2.jpg";
-import styles from "./CSS/ItemOwner.module.css";
+import styles from "../CSS/ItemOwner.module.css";
 import Button from "@mui/material/Button";
-import locationIcon from "../image/Location-Icon-1.png";
-import moneyIcon from "../image/Money-Icon-1.png";
-import areaIcon from "../image/Area-Icon-1.png";
-import personIcon from "../image/Person-Icon-1.jpg";
+import locationIcon from "../../image/Location-Icon-1.png";
+import moneyIcon from "../../image/Money-Icon-1.png";
+import areaIcon from "../../image/Area-Icon-1.png";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -17,7 +14,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
-import axios from "../api";
+import axios from "../../api";
 
 function createData(name, detail) {
   return { name, detail };
@@ -30,14 +27,16 @@ function createDataUtility(name, quantity, status) {
   return { name, quantity, status1 };
 }
 
-export default function ItemRenter() {
+export default function MyRentMotel() {
   const [motelDetail, setMotelDetail] = React.useState();
   const { id } = useParams();
   React.useEffect(() => {
-    axios.get(`/motels/${id}`).then((response) => {
-      setMotelDetail(response.data.data);
-      console.log(motelDetail);
-    });
+    axios
+      .get(`/motels/ff8494e3-7a40-4278-a70c-3872c99c4fc5`)
+      .then((response) => {
+        setMotelDetail(response.data.data);
+        console.log(motelDetail);
+      });
   }, []);
   if (motelDetail === undefined) {
     return <>Still loading...</>;
@@ -58,7 +57,7 @@ export default function ItemRenter() {
   });
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Typography
         align="center"
         variant="h3"
@@ -94,7 +93,10 @@ export default function ItemRenter() {
       <div className={styles.item_information}>
         <div className={styles.item_information_left}>
           <div className={styles.wrap_button}>
-            <Button variant="contained">Thuê phòng</Button>
+            <Button variant="contained">Thông báo tình trạng thiết bị</Button>
+          </div>
+          <div className={styles.wrap_button}>
+            <Button variant="contained">Thanh toán tiền phòng</Button>
           </div>
           <div className={styles.wrap_button}>
             <Button variant="contained">Liên hệ với chủ nhà trọ</Button>
@@ -211,6 +213,6 @@ export default function ItemRenter() {
           </TableContainer>
         </div>
       </div>
-    </>
+    </div>
   );
 }

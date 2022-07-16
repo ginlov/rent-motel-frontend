@@ -1,5 +1,3 @@
-import * as React from "react";
-import styles from "./CSS/SearchPage.module.css";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
@@ -9,24 +7,24 @@ import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import NavbarRenter from "../component/NavbarRenter";
-import { ItemHomePage } from "../component/ItemHomePage";
-
-const listItem = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-  { id: 7 },
-  { id: 8 },
-  { id: 9 },
-  { id: 10 },
-];
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { ItemOwner } from "../component/ItemOwner";
+import styles from "./CSS/MyMotelPage.module.css";
+import axios from "../api";
+import { ItemRenter } from "../component/ItemRenter";
 
 export default function SearchPage() {
-  const [filter, setFilter] = React.useState("");
+  const [listMotel, setListMotel] = useState([]);
+  const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("/motels?order-by=price-desc&limit=20&offset=1")
+      .then((response) => {
+        setListMotel(response.data.data);
+      });
+  }, []);
 
   const handleChange = (event) => {
     setFilter(event.target.value);
@@ -70,9 +68,19 @@ export default function SearchPage() {
           </IconButton>
         </Paper>
       </div>
-      <div className={styles.wrap_result}>
-        {listItem.map((item) => {
-          return <ItemHomePage></ItemHomePage>;
+      <div className={styles.wrap_item}>
+        {listMotel.map((item) => {
+          return (
+            <ItemRenter
+              key={item.id}
+              item_id={item.id}
+              item_title={item.summary}
+              item_address={item.address.city}
+              item_price={item.price}
+              item_area={item.square}
+              item_image={item.imageUrl}
+            ></ItemRenter>
+          );
         })}
       </div>
     </>
