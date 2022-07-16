@@ -9,9 +9,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import ForumIcon from "@mui/icons-material/Forum";
+import People from "@mui/icons-material/People";
+import Payments from "@mui/icons-material/Payments";
+import {OtherHouses} from "@mui/icons-material";
 
 const drawerWidth = 240;
-export default function Sidebar() {
+export default function Sidebar(props) {
     return (
         <>
             <Drawer
@@ -33,11 +37,19 @@ export default function Sidebar() {
                 <Toolbar />
                 <Divider />
                 <List>
-                    {["Inbox", "Phong tro", "Email", "Nguoi dung"].map((text, index) => (
-                        <ListItem key={text} disablePadding>
+                    {["Chat", "Email", "Phòng trọ", "Người dùng", "Thanh toán"].map((text, index) => (
+                        <ListItem
+                            key={text}
+                            disablePadding
+                            onClick={() => props.callBack(index)}
+                        >
                             <ListItemButton>
                                 <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                    {index % 5 === 0 && <ForumIcon />}
+                                    {index % 5 === 1 && <MailIcon />}
+                                    {index % 5 === 2 && <OtherHouses />}
+                                    {index % 5 === 3 && <People />}
+                                    {index % 5 === 4 && <Payments />}
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItemButton>
