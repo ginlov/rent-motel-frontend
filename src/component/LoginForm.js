@@ -90,7 +90,7 @@ export default function LoginForm() {
         </div>
       </div>
       {role == "OWNER" && <Navigate to="/mymotel" replace={true} />}
-      {role == "RENTER" && <Navigate to="/renter" replace={true} />}
+      {role == "RENTER" && <Navigate to="/search" replace={true} />}
     </>
   );
 }

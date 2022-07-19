@@ -21,6 +21,17 @@ import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 import axios from "../api";
 import MockupAddUtility from "../component/MockupAddUtility";
+import style from "./style.module.css";
+import DeleteIcon from "@mui/icons-material/Delete";
+import HandymanIcon from "@mui/icons-material/Handyman";
+import FeedIcon from "@mui/icons-material/Feed";
+import AddIcon from "@mui/icons-material/Add";
+import BoltIcon from "@mui/icons-material/Bolt";
+import WaterIcon from "@mui/icons-material/Water";
+import PersonIcon from "@mui/icons-material/Person";
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
+import PaidIcon from "@mui/icons-material/Paid";
+import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 
 function createData(name, detail) {
   return { name, detail };
@@ -36,18 +47,31 @@ function createDataUtility(name, quantity, status) {
 export default function ItemOwner() {
   const [openFormEdit, setOpenFormEdit] = React.useState(false);
   const [openConfirmMockup, setOpenConfirmMockup] = React.useState(false);
-  const [motelDetail, setMotelDetail] = React.useState();
+  const [motelDetail, setMotelDetail] = React.useState({
+    id: 1,
+    summary: "Phòng trọ sinh viên",
+    description: "Phòng trọ đầy đủ tiện nghi",
+    address: {
+      city: "Hà Nội",
+      district: "Ba Đình",
+      ward: "Ba Đình 1",
+      detail: "1 Đào Tấn",
+    },
+    electricPrice: 10000,
+    waterPrice: 10000,
+    motelUtilities: [],
+  });
   const [openAddMockup, setOpenAddMockup] = React.useState(false);
   const { id } = useParams();
-  React.useEffect(() => {
-    axios.get(`/motels/${id}`).then((response) => {
-      setMotelDetail(response.data.data);
-      console.log(motelDetail);
-    });
-  }, []);
-  if (motelDetail === undefined) {
-    return <>Still loading...</>;
-  }
+  // React.useEffect(() => {
+  //   axios.get(`/motels/${id}`).then((response) => {
+  //     setMotelDetail(response.data.data);
+  //     console.log(motelDetail);
+  //   });
+  // }, []);
+  // if (motelDetail === undefined) {
+  //   return <>Still loading...</>;
+  // }
   var rows = [
     createData("Giá điện", motelDetail.electricPrice),
     createData("Giá nước", motelDetail.waterPrice),
@@ -63,207 +87,169 @@ export default function ItemOwner() {
     rowsUtility.push(row);
   });
   return (
-    <>
-      <MockupEditMotel
-        callback={setOpenFormEdit}
-        status={openFormEdit}
-        motelDetail={motelDetail}
-      />
-      <MockupConfirm
-        callback={setOpenConfirmMockup}
-        status={openConfirmMockup}
-        content="Bạn có muốn xoá nhà trọ không?"
-      />
-      <MockupAddUtility
-        callback={setOpenAddMockup}
-        status={openAddMockup}
-        motelId={id}
-      />
-      <Typography
-        align="center"
-        variant="h3"
-        sx={{ fontFamily: "Poppins, sans-serif", color: "#0aae9b" }}
-      >
-        {motelDetail.summary}
-      </Typography>
-      <Typography
-        align="left"
-        variant="h6"
-        sx={{
-          fontFamily: "Poppins, sans-serif",
-          color: "#0aae9b",
-          marginLeft: "100px",
-        }}
-      >
-        {motelDetail.description}
-      </Typography>
-      <Stack
-        direction="row"
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
-        sx={{ marginTop: "10px" }}
-      >
-        <img
-          style={{ height: "350px" }}
-          className={styles.item_image}
-          src={motelDetail.imageUrl}
-          alt=""
-        ></img>
-      </Stack>
-      <div className={styles.item_information}>
-        <div className={styles.item_information_left}>
-          <div className={styles.wrap_button}>
-            <Button variant="contained">Đăng thông tin phòng trọ</Button>
-          </div>
-          <div className={styles.wrap_button}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setOpenFormEdit(true);
-              }}
-            >
-              Sửa nhà trọ
-            </Button>
-          </div>
-          <div className={styles.wrap_button}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setOpenConfirmMockup(true);
-              }}
-              style={{
-                backgroundColor: "red",
-              }}
-            >
-              Xoá nhà trọ
-            </Button>
-          </div>
-          <div className={styles.item_address}>
-            <img
-              src={locationIcon}
-              style={{ width: "20px", marginRight: "10px" }}
-            ></img>
-            {motelDetail.address.detail}, {motelDetail.address.ward},{" "}
-            {motelDetail.address.district}, {motelDetail.address.city}
-          </div>
-          <div className={styles.item_price}>
-            <img
-              src={moneyIcon}
-              style={{ width: "20px", marginRight: "10px" }}
-            ></img>
-            {motelDetail.price}/tháng
-          </div>
-          <div className={styles.item_area}>
-            <img
-              src={areaIcon}
-              style={{ width: "20px", marginRight: "10px" }}
-            ></img>
-            {motelDetail.square}m2
-          </div>
-          <div className={styles.item_person}>
-            <img
-              src={personIcon}
-              style={{ width: "20px", marginRight: "10px" }}
-            ></img>
-            {motelDetail.renterMotel}
-          </div>
-        </div>
-        <div className={styles.item_information_right}>
-          <Button
-            variant="contained"
-            sx={{ marginBottom: "15px" }}
-            onClick={() => {
-              setOpenAddMockup(true);
-            }}
-          >
-            Thêm thiết bị
-          </Button>
-          <TableContainer component={Paper}>
-            <Table
-              sx={{ minWidth: 100 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
-                    Danh mục
-                  </TableCell>
-                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
-                    Thông tin
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      align="center"
-                      sx={{ fontSize: "x-large" }}
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="center" sx={{ fontSize: "x-large" }}>
-                      {row.detail}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+    <div className={style.wrap_page}>
+      <div className={style.wrap_content}>
+        <MockupEditMotel
+          callback={setOpenFormEdit}
+          status={openFormEdit}
+          motelDetail={motelDetail}
+        />
+        <MockupConfirm
+          callback={setOpenConfirmMockup}
+          status={openConfirmMockup}
+          content="Bạn có muốn xoá nhà trọ không?"
+        />
+        <MockupAddUtility
+          callback={setOpenAddMockup}
+          status={openAddMockup}
+          motelId={id}
+        />
+        <Typography
+          align="center"
+          variant="h3"
+          sx={{ fontFamily: "Poppins, sans-serif", color: "#0aae9b" }}
+        >
+          {motelDetail.summary}
+        </Typography>
 
-          <TableContainer component={Paper}>
-            <Table
-              sx={{ minWidth: 100 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
-                    Thiết bị
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          sx={{ marginTop: "10px" }}
+        >
+          <img
+            style={{ height: "350px" }}
+            className={styles.item_image}
+            src={motelDetail.imageUrl}
+            alt=""
+          ></img>
+        </Stack>
+        <Typography
+          align="left"
+          variant="h6"
+          sx={{
+            fontFamily: "Poppins, sans-serif",
+            color: "#0aae9b",
+            marginLeft: "100px",
+            marginTop: "30px",
+          }}
+        >
+          {motelDetail.description}
+        </Typography>
+        <div className={styles.item_information}>
+          <div className={styles.item_information_left}>
+            <div className={styles.item_info}>
+              <EditLocationAltIcon></EditLocationAltIcon>
+              {motelDetail.address.detail}, {motelDetail.address.ward},{" "}
+              {motelDetail.address.district}, {motelDetail.address.city}
+            </div>
+            <div className={styles.item_info}>
+              <PaidIcon></PaidIcon>
+              {motelDetail.price}/tháng
+            </div>
+            <div className={styles.item_info}>
+              <SquareFootIcon></SquareFootIcon>
+              {motelDetail.square}m2
+            </div>
+
+            <div style={{ display: "flex", flexDimention: "row" }}>
+              <div className={styles.wrap_button}>
+                <Button variant="contained">
+                  <FeedIcon></FeedIcon>
+                </Button>
+              </div>
+              <div className={styles.wrap_button}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setOpenFormEdit(true);
+                  }}
+                >
+                  <HandymanIcon></HandymanIcon>
+                </Button>
+              </div>
+              <div className={styles.wrap_button}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setOpenConfirmMockup(true);
+                  }}
+                  style={{
+                    backgroundColor: "red",
+                  }}
+                >
+                  <DeleteIcon></DeleteIcon>
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className={styles.item_information_right}>
+            <div className={styles.item_info}>
+              <PersonIcon></PersonIcon>
+              {motelDetail.renterMotel}
+            </div>
+            <div className={styles.item_info}>
+              <BoltIcon></BoltIcon>
+              {motelDetail.electricPrice}
+            </div>
+            <div className={styles.item_info}>
+              <WaterIcon />
+              {motelDetail.waterPrice}
+            </div>
+          </div>
+        </div>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" sx={{ fontSize: "xx-large" }}>
+                  Thiết bị
+                </TableCell>
+                <TableCell align="center" sx={{ fontSize: "xx-large" }}>
+                  Số lượng
+                </TableCell>
+                <TableCell align="center" sx={{ fontSize: "xx-large" }}>
+                  Tình trạng
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rowsUtility.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    align="center"
+                    sx={{ fontSize: "x-large" }}
+                  >
+                    {row.name}
                   </TableCell>
-                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
-                    Số lượng
+                  <TableCell align="center" sx={{ fontSize: "x-large" }}>
+                    {row.quantity}
                   </TableCell>
-                  <TableCell align="center" sx={{ fontSize: "xx-large" }}>
-                    Tình trạng
+                  <TableCell align="center" sx={{ fontSize: "x-large" }}>
+                    {row.status1}
                   </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {rowsUtility.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      align="center"
-                      sx={{ fontSize: "x-large" }}
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="center" sx={{ fontSize: "x-large" }}>
-                      {row.quantity}
-                    </TableCell>
-                    <TableCell align="center" sx={{ fontSize: "x-large" }}>
-                      {row.status1}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Button
+          variant="contained"
+          sx={{ marginTop: "15px" }}
+          onClick={() => {
+            setOpenAddMockup(true);
+          }}
+        >
+          <AddIcon></AddIcon>
+        </Button>
       </div>
-    </>
+    </div>
   );
 }

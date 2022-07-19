@@ -1,0 +1,13 @@
+.wrap_page {
+  display: flex;
+  background: #d5e2e6;
+}
+
+.wrap_content {
+  width: 80%;
+  margin: auto;
+  min-height: 665px;
+  background: white;
+  margin-top: 30px;
+  border-radius: 10px;
+}

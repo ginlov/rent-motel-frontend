@@ -42,7 +42,7 @@ async function Register(
   console.log(body);
   const response = await axios.post("/auth/register", body);
   console.log(response);
-  if (response.data.statusCode == 201) {
+  if (response.data.statusCode == 200) {
     console.log(response.data.statusCode);
     setIsSuccess(true);
   }
