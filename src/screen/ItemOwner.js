@@ -4,13 +4,10 @@ import Stack from "@mui/material/Stack";
 import image from "../image/phong-tro-2.jpg";
 import styles from "./CSS/ItemOwner.module.css";
 import Button from "@mui/material/Button";
-import locationIcon from "../image/Location-Icon-1.png";
-import moneyIcon from "../image/Money-Icon-1.png";
-import areaIcon from "../image/Area-Icon-1.png";
-import personIcon from "../image/Person-Icon-1.jpg";
+import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -33,9 +30,37 @@ import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import PaidIcon from "@mui/icons-material/Paid";
 import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 
-function createData(name, detail) {
-  return { name, detail };
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: "#1976d2",
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
 }
+
+const rows = [
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+];
 
 function createDataUtility(name, quantity, status) {
   var status1;
@@ -72,10 +97,6 @@ export default function ItemOwner() {
   // if (motelDetail === undefined) {
   //   return <>Still loading...</>;
   // }
-  var rows = [
-    createData("Giá điện", motelDetail.electricPrice),
-    createData("Giá nước", motelDetail.waterPrice),
-  ];
 
   var rowsUtility = [];
   motelDetail.motelUtilities.forEach((element) => {
@@ -200,55 +221,41 @@ export default function ItemOwner() {
             </div>
           </div>
         </div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 100 }} size="small" aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" sx={{ fontSize: "xx-large" }}>
-                  Thiết bị
-                </TableCell>
-                <TableCell align="center" sx={{ fontSize: "xx-large" }}>
-                  Số lượng
-                </TableCell>
-                <TableCell align="center" sx={{ fontSize: "xx-large" }}>
-                  Tình trạng
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rowsUtility.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    align="center"
-                    sx={{ fontSize: "x-large" }}
-                  >
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="center" sx={{ fontSize: "x-large" }}>
-                    {row.quantity}
-                  </TableCell>
-                  <TableCell align="center" sx={{ fontSize: "x-large" }}>
-                    {row.status1}
-                  </TableCell>
+        <div style={{ marginLeft: "100px", width: "80%", marginTop: "20px" }}>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Thiết bị</StyledTableCell>
+                  <StyledTableCell align="right">Số lượng</StyledTableCell>
+                  <StyledTableCell align="right">Tình trạng</StyledTableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Button
-          variant="contained"
-          sx={{ marginTop: "15px" }}
-          onClick={() => {
-            setOpenAddMockup(true);
-          }}
-        >
-          <AddIcon></AddIcon>
-        </Button>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.calories}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Button
+            variant="contained"
+            sx={{ marginTop: "15px" }}
+            onClick={() => {
+              setOpenAddMockup(true);
+            }}
+          >
+            <AddIcon></AddIcon>
+          </Button>
+        </div>
       </div>
     </div>
   );

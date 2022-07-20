@@ -23,11 +23,11 @@ export default function InforWindow(props) {
         sx={{
           justifyContent: "center",
           alignContent: "center",
-          marginLeft: "50px",
+          marginLeft: "390px",
           marginTop: "5px",
         }}
       >
-        <Typography variant="h5" sx={{ marginLeft: "100px" }}>
+        <Typography variant="h5" sx={{ marginLeft: "170px" }}>
           Thông tin cá nhân
         </Typography>
         <Divider></Divider>

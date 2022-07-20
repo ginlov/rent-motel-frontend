@@ -9,7 +9,19 @@ import axios from "../../api";
 import MockupChangePassword from "../../component/MockupChangePassword";
 
 export default function InforWindow(props) {
-  const [info, setInfo] = useState();
+  const [info, setInfo] = useState({
+    firstName: "Đào",
+    lastName: "Dương",
+    email: "duong123",
+    address: {
+      city: "Hà Nội",
+      district: "Ba Đình",
+      ward: "Ba Đình 1",
+      detail: "1 Đào Tấn",
+    },
+    gender: "nam",
+    phone: "0123456789",
+  });
   const [openMockupChangePassword, setOpenChangePassword] = useState(false);
   useEffect(() => {
     axios.get("/users/me").then((response) => {
@@ -23,11 +35,11 @@ export default function InforWindow(props) {
         sx={{
           justifyContent: "center",
           alignContent: "center",
-          marginLeft: "50px",
+          marginLeft: "390px",
           marginTop: "5px",
         }}
       >
-        <Typography variant="h5" sx={{ marginLeft: "100px" }}>
+        <Typography variant="h5" sx={{ marginLeft: "170px" }}>
           Thông tin cá nhân
         </Typography>
         <Divider></Divider>

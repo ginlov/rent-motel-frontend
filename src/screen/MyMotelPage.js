@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import styles from "./CSS/MyMotelPage.module.css";
 import axios from "../api";
 import MockupAddMotel from "../component/MockupAddMotel";
-import { Navigate } from "react-router-dom";
+import style from "./style.module.css";
 
 export default function MyMotelPage() {
   const [listMotel, setListMotel] = useState([]);
@@ -18,8 +18,8 @@ export default function MyMotelPage() {
     });
   }, []);
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}>
+    <div className={style.wrap_page}>
+      <div className={style.wrap_content}>
         <MockupAddMotel
           callback={setOpenFormAddMotel}
           status={openFormAddMotel}

@@ -13,6 +13,7 @@ import { ItemOwner } from "../component/ItemOwner";
 import styles from "./CSS/MyMotelPage.module.css";
 import axios from "../api";
 import { ItemRenter } from "../component/ItemRenter";
+import style from "./style.module.css";
 
 export default function SearchPage() {
   const [listMotel, setListMotel] = useState([
@@ -38,8 +39,8 @@ export default function SearchPage() {
     setFilter(event.target.value);
   };
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ width: "80%", margin: "auto" }}>
+    <div className={style.wrap_page}>
+      <div className={style.wrap_content}>
         <div className={styles.wrap_search}>
           <Paper
             component="form"
