@@ -33,7 +33,11 @@ export default function MockupConfirm(props) {
           {props.content}
         </Typography>
         <Stack spacing={2} direction="row" justifyContent="center">
-          <Button variant="contained" color="success">
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => props.action()}
+          >
             Yes
           </Button>
           <Button

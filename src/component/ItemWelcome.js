@@ -6,16 +6,11 @@ import areaIcon from "../image/Area-Icon-1.png";
 import { Navigate } from "react-router-dom";
 import "./styles.css";
 
-export function ItemRenter(props) {
+export function ItemWelcome(props) {
   const [isClick, setIsClick] = useState(false);
   return (
     <>
-      <div
-        className="item-home-page"
-        onClick={(e) => {
-          setIsClick(true);
-        }}
-      >
+      <div className="item-home-page">
         <img
           src={props.item_image}
           alt=""

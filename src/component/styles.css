@@ -73,7 +73,10 @@ input[type="submit"]:hover {
 }
 
 .image-item-home-page {
-  width: 363px;
+  height: 120px;
+  max-width: 230px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .item-title {

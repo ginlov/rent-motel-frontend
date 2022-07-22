@@ -11,6 +11,21 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { useNavigate } from "react-router-dom";
+import axios from "../api";
+
+async function changePass(o, n) {
+  try {
+    const response = axios.post(`/auth/change-password`, {
+      password: o,
+      newPassword: n,
+    });
+    console.log(response);
+    localStorage.removeItem("token");
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const style = {
   position: "absolute",
@@ -29,6 +44,7 @@ function MockupChangePassword(props) {
   const [newPassword, setNewPassword] = useState("");
   const [repeatNewPassword, setRepeatNewPassword] = useState("");
   const handleClose = () => props.callBack(false);
+  let navigate = useNavigate();
   return (
     <Modal
       open={props.status}
@@ -38,7 +54,7 @@ function MockupChangePassword(props) {
     >
       <Box sx={style}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Text in a modal
+          Đổi mật khẩu
         </Typography>
         <form>
           <TextField
@@ -94,6 +110,10 @@ function MockupChangePassword(props) {
             variant="contained"
             color="primary"
             autoComplete="off"
+            onClick={() => {
+              changePass(oldPassword, newPassword);
+              navigate("/", { replace: true });
+            }}
           >
             Đổi mật khẩu
           </Button>

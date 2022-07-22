@@ -70,11 +70,10 @@ export default function LoginForm() {
         <div className="button-container">
           <Button
             variant="contained"
-            onClick={(event) => Login(username, password, setRole, setError)}
+            onClick={() => Login(username, password, setRole, setError)}
           >
             Đăng nhập
           </Button>
-          {/* <input onClick={(event) => Login(username, password)} /> */}
         </div>
       </form>
     </div>

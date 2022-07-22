@@ -23,7 +23,7 @@ async function addUtility(
   const body = {
     motelId: motelId,
     utilityId: utilityId,
-    status: 1,
+    status: "Bình thường",
     quantity: Number(quantity),
   };
   console.log(body);
@@ -73,29 +73,26 @@ export default function MockupAddUtility(props) {
           onChange={(e) => setUtility(e.target.value)}
           sx={{ minWidth: 300, marginLeft: 1 }}
         >
-          <MenuItem value={"13b576a7-449e-46dc-bf59-d026cef20b9d"}>
+          <MenuItem value={"3f325141-0be6-4951-8e82-e9d91cd6eab4"}>
             Bếp
           </MenuItem>
-          <MenuItem value={"38a99ef0-ce01-4550-b379-4b5d15ad886d"}>
+          <MenuItem value={"133ad468-3a81-478c-93fa-cbcc08969817"}>
             Giường
           </MenuItem>
-          <MenuItem value={"3d0d08e9-0b85-4959-997f-4b743c1d54b2"}>
+          <MenuItem value={"dc1e38e3-dbc9-455a-aa12-cc8bb1f3e08f"}>
             Máy điều hoà
           </MenuItem>
-          <MenuItem value={"3fc53f8f-e9b2-477c-820b-9ed815005289"}>
-            Ghế
-          </MenuItem>
-          <MenuItem value={"44f2ad4d-e8ee-412f-8abe-a622acc98381"}>
+          <MenuItem value={"5c23b8ef-79f9-4e8b-9ed1-22f8007331e9"}>
             Quạt
           </MenuItem>
-          <MenuItem value={"8c1ea489-58c0-4241-84cb-8a13c860be1d"}>
+          <MenuItem value={"789e8ec4-cab9-4962-9ea5-63ebaf89242f"}>
             Máy giặt
           </MenuItem>
           <MenuItem value={"9251f033-8b41-4bdc-9847-52435956850a"}>Tủ</MenuItem>
-          <MenuItem value={"9416e5e4-9a7a-40b3-bed1-d369b1f111d7"}>
+          <MenuItem value={"10fa270e-7b1b-4c56-ac20-a6c7d53f9a95"}>
             Bóng đèn
           </MenuItem>
-          <MenuItem value={"df37337d-ba32-4d87-8e31-11d49ee993f6"}>
+          <MenuItem value={"302d0663-816d-49e5-b294-2658a88f1364"}>
             Bàn
           </MenuItem>
         </Select>

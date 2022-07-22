@@ -50,53 +50,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 function createDataUtility(name, quantity, status) {
-  var status1;
-  if (status == 1) status1 = "Tốt";
-  else status1 = "Hỏng";
-  return { name, quantity, status1 };
+  return { name, quantity, status };
 }
 
 export default function ItemOwner() {
   const [openFormEdit, setOpenFormEdit] = React.useState(false);
   const [openConfirmMockup, setOpenConfirmMockup] = React.useState(false);
-  const [motelDetail, setMotelDetail] = React.useState({
-    id: 1,
-    summary: "Phòng trọ sinh viên",
-    description: "Phòng trọ đầy đủ tiện nghi",
-    address: {
-      city: "Hà Nội",
-      district: "Ba Đình",
-      ward: "Ba Đình 1",
-      detail: "1 Đào Tấn",
-    },
-    electricPrice: 10000,
-    waterPrice: 10000,
-    motelUtilities: [],
-  });
+  const [motelDetail, setMotelDetail] = React.useState();
   const [openAddMockup, setOpenAddMockup] = React.useState(false);
+  const [openConfirmMockupPublicMotel, setOpenConfirmMockupPublicMotel] =
+    React.useState(false);
   const { id } = useParams();
-  // React.useEffect(() => {
-  //   axios.get(`/motels/${id}`).then((response) => {
-  //     setMotelDetail(response.data.data);
-  //     console.log(motelDetail);
-  //   });
-  // }, []);
-  // if (motelDetail === undefined) {
-  //   return <>Still loading...</>;
-  // }
+  React.useEffect(() => {
+    axios.get(`/motels/${id}`).then((response) => {
+      setMotelDetail(response.data.data);
+      console.log(response.data.data);
+    });
+  }, []);
+  if (motelDetail === undefined) {
+    return <>Still loading...</>;
+  }
 
   var rowsUtility = [];
   motelDetail.motelUtilities.forEach((element) => {
@@ -124,6 +98,21 @@ export default function ItemOwner() {
           callback={setOpenAddMockup}
           status={openAddMockup}
           motelId={id}
+        />
+        <MockupConfirm
+          callback={setOpenConfirmMockupPublicMotel}
+          status={openConfirmMockupPublicMotel}
+          content="Bạn có muốn tìm người thuê trọ không?"
+          action={() => {
+            try {
+              axios.patch(`/motels/${id}`, {
+                requestPublic: true,
+              });
+              window.location.reload();
+            } catch (error) {
+              console.log(error);
+            }
+          }}
         />
         <Typography
           align="center"
@@ -177,9 +166,20 @@ export default function ItemOwner() {
 
             <div style={{ display: "flex", flexDimention: "row" }}>
               <div className={styles.wrap_button}>
-                <Button variant="contained">
-                  <FeedIcon></FeedIcon>
-                </Button>
+                {!motelDetail.requestPublic ? (
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      setOpenConfirmMockupPublicMotel(true);
+                    }}
+                  >
+                    <FeedIcon></FeedIcon>
+                  </Button>
+                ) : (
+                  <Button variant="contained" disabled>
+                    <FeedIcon></FeedIcon>
+                  </Button>
+                )}
               </div>
               <div className={styles.wrap_button}>
                 <Button
@@ -232,15 +232,17 @@ export default function ItemOwner() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
+                {rowsUtility.map((row) => (
+                  <StyledTableRow key={row.id}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {row.calories}
+                      {row.quantity}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.status}
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

@@ -9,19 +9,7 @@ import axios from "../../api";
 import MockupChangePassword from "../../component/MockupChangePassword";
 
 export default function InforWindow(props) {
-  const [info, setInfo] = useState({
-    firstName: "Đào",
-    lastName: "Dương",
-    email: "duong123",
-    address: {
-      city: "Hà Nội",
-      district: "Ba Đình",
-      ward: "Ba Đình 1",
-      detail: "1 Đào Tấn",
-    },
-    gender: "nam",
-    phone: "0123456789",
-  });
+  const [info, setInfo] = useState();
   const [openMockupChangePassword, setOpenChangePassword] = useState(false);
   useEffect(() => {
     axios.get("/users/me").then((response) => {

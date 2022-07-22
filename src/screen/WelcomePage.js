@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { ItemOwner } from "../component/ItemOwner";
 import styles from "./CSS/MyMotelPage.module.css";
 import axios from "../api";
-import { ItemRenter } from "../component/ItemRenter";
+import { ItemWelcome } from "../component/ItemWelcome";
 
 const listItem = [
   { id: 1 },
@@ -28,19 +28,9 @@ const listItem = [
 ];
 
 export default function WelcomePage() {
-  const [listMotel, setListMotel] = useState([
-    {
-      key: "1",
-      id: "1",
-      title: "Nha tro sinh vien",
-      address: "Ha Noi",
-      price: "3000000",
-      square: "30",
-      imageUrl: "",
-    },
-  ]);
+  const [listMotel, setListMotel] = useState([]);
   useEffect(() => {
-    axios.get("/motels?order-by=price_desc").then((response) => {
+    axios.get("/motels/public").then((response) => {
       setListMotel(response.data.data);
     });
   }, []);
@@ -50,16 +40,20 @@ export default function WelcomePage() {
         style={{
           width: "80%",
           margin: "auto",
-          minHeight: "665px",
+          minHeight: "635px",
           background: "white",
           marginTop: "30px",
           borderRadius: "10px",
+          marginBottom: "30px",
+        }}
+        onClick={(e) => {
+          alert("Vui lòng đăng nhập để xem chi tiết phòng trọ!!!");
         }}
       >
         <div className={styles.wrap_item}>
           {listMotel.map((item) => {
             return (
-              <ItemRenter
+              <ItemWelcome
                 key={item.id}
                 item_id={item.id}
                 item_title={item.summary}
@@ -67,7 +61,7 @@ export default function WelcomePage() {
                 item_price={item.price}
                 item_area={item.square}
                 item_image={item.imageUrl}
-              ></ItemRenter>
+              ></ItemWelcome>
             );
           })}
         </div>

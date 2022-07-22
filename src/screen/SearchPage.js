@@ -24,16 +24,17 @@ export default function SearchPage() {
       address: "Ha Noi",
       price: "3000000",
       square: "30",
-      imageUrl: "",
+      imageUrl:
+        "https://datnendep.vn/wp-content/uploads/2019/10/anh-phong-tro-1_1545126166.jpg",
     },
   ]);
   const [filter, setFilter] = useState("");
 
-  useEffect(() => {
-    axios.get("/motels?order-by=price_desc").then((response) => {
-      setListMotel(response.data.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("/motels?order-by=price_desc").then((response) => {
+  //     setListMotel(response.data.data);
+  //   });
+  // }, []);
 
   const handleChange = (event) => {
     setFilter(event.target.value);

@@ -11,7 +11,11 @@ export function ItemOwner(props) {
   return (
     <>
       <div className="item-home-page" onClick={() => setIsClick(true)}>
-        <img src={props.item_image} alt="" style={{ height: "250px" }}></img>
+        <img
+          className="image-item-home-page"
+          src={props.item_image}
+          alt=""
+        ></img>
         <div className="item-detail">
           <p className="item-title">{props.item_title}</p>
           <div className="item-address">
