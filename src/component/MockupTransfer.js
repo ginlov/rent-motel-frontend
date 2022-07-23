@@ -5,6 +5,7 @@ import Modal from "@mui/material/Modal";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import UploadImage from "./UploadImage";
+import axios from "../api";
 
 const style = {
   position: "absolute",
@@ -39,7 +40,37 @@ export default function MockupTransfer(props) {
           <Button
             variant="contained"
             color="success"
-            onClick={() => props.action()}
+            onClick={async () => {
+              try {
+                const response = await axios.post(`/transactions`, {
+                  motelId: props.motelId,
+                });
+                var idTransaction = response.data.data.id;
+                var bodyFormData = new FormData();
+                bodyFormData.append("image", image);
+                const responseImage = await axios.post(
+                  "/motels/upload-image",
+                  bodyFormData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  }
+                );
+                const imageUrl = responseImage.data.data.imageUrl;
+                await axios.post(
+                  `/transactions/upload-image-bill/${idTransaction}`,
+                  {
+                    motelId: props.motelId,
+                    imageUrl: imageUrl,
+                  }
+                );
+                alert(
+                  "Đã thông tin tới quản trị viên. Hãy chờ quản trị viên xác nhận."
+                );
+                handleClose();
+              } catch (error) {
+                console.log(error);
+              }
+            }}
           >
             Yes
           </Button>

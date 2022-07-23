@@ -108,17 +108,7 @@ export default function ItemOwner() {
           callback={setOpenMockupAccept}
           status={openMockupAccept}
           content={`Bạn có muốn thuê phòng trọ này không? Nếu có xin mời thanh toán tiền cọc ${motelDetail.price}`}
-          action={() => {
-            try {
-              // axios.post(`/rent-motel/${id}`);
-              alert(
-                "Đã thông tin tới quản trị viên. Hãy chờ quản trị viên xác nhận."
-              );
-              setOpenMockupAccept(false);
-            } catch (error) {
-              console.log(error);
-            }
-          }}
+          motelId={id}
         />
         <Typography
           align="center"

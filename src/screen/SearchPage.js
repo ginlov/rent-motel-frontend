@@ -18,6 +18,7 @@ import style from "./style.module.css";
 export default function SearchPage() {
   const [listMotel, setListMotel] = useState([]);
   const [filter, setFilter] = useState("");
+  const [stringSearch, setStringSearch] = useState("");
 
   useEffect(() => {
     axios.get("/motels/public").then((response) => {
@@ -51,9 +52,9 @@ export default function SearchPage() {
                   label="Age"
                   onChange={handleChange}
                 >
-                  <MenuItem value={"Address"}>Address</MenuItem>
-                  <MenuItem value={"Price"}>Price</MenuItem>
-                  <MenuItem value={"Area"}>Area</MenuItem>
+                  <MenuItem value={"district"}>Address</MenuItem>
+                  <MenuItem value={"price"}>Price Max</MenuItem>
+                  <MenuItem value={"square"}>Area Max</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -62,8 +63,20 @@ export default function SearchPage() {
               label="Search"
               variant="outlined"
               sx={{ marginLeft: "10px", width: "500px", height: "65px" }}
+              onChange={(e) => {
+                setStringSearch(e.target.value);
+              }}
             />
-            <IconButton sx={{ p: "10px" }} aria-label="search">
+            <IconButton
+              sx={{ p: "10px" }}
+              aria-label="search"
+              onClick={async () => {
+                const response = await axios.get(
+                  `/motels/public?${filter}=${stringSearch}`
+                );
+                setListMotel(response.data.data);
+              }}
+            >
               <SearchIcon />
             </IconButton>
           </Paper>

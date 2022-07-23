@@ -134,7 +134,8 @@ export default function ItemAdmin() {
                 renterId: renter.id,
                 motelId: id,
               });
-              // window.location.reload();
+              alert("Đã liên hệ với khách.");
+              window.location.reload();
             } catch (error) {
               console.log(error);
             }
