@@ -27,6 +27,7 @@ import ForumIcon from "@mui/icons-material/Forum";
 import ThreePIcon from "@mui/icons-material/ThreeP";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import ReportIcon from "@mui/icons-material/Report";
+import MockupTransfer from "../../component/MockupTransfer";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,59 +49,35 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createDataUtility(name, quantity, status) {
+  return { name, quantity, status };
 }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 export default function MyRentMotel() {
-  const [motelDetail, setMotelDetail] = React.useState({
-    id: 1,
-    summary: "Phòng trọ sinh viên",
-    description: "Phòng trọ đầy đủ tiện nghi",
-    address: {
-      city: "Hà Nội",
-      district: "Ba Đình",
-      ward: "Ba Đình 1",
-      detail: "1 Đào Tấn",
-    },
-    electricPrice: 10000,
-    waterPrice: 10000,
-    motelUtilities: [],
-  });
+  const [openMockupTransaction, setOpenMockupTransaction] =
+    React.useState(false);
+  const [openMockupReport, setOpenMockupReport] = React.useState(false);
+  const [motelDetail, setMotelDetail] = React.useState({});
   const { id } = useParams();
   React.useEffect(() => {
-    axios
-      .get(`/motels/ff8494e3-7a40-4278-a70c-3872c99c4fc5`)
-      .then((response) => {
-        setMotelDetail(response.data.data);
-        console.log(motelDetail);
-      });
+    axios.get(`/my-rented-motel`).then((response) => {
+      setMotelDetail(response.data.data);
+      console.log(motelDetail);
+    });
   }, []);
   if (motelDetail === undefined) {
-    return <>Still loading...</>;
+    return <>Bạn chưa thuê phòng trọ nào cả</>;
   }
-  var rows = [
-    createData("Giá điện", motelDetail.electricPrice),
-    createData("Giá nước", motelDetail.waterPrice),
-  ];
 
-  // var rowsUtility = [];
-  // motelDetail.motelUtilities.forEach((element) => {
-  //   var row = createDataUtility(
-  //     element.utility.type,
-  //     element.quantity,
-  //     element.status
-  //   );
-  //   rowsUtility.push(row);
-  // });
+  var rowsUtility = [];
+  motelDetail.motelUtilities.forEach((element) => {
+    var row = createDataUtility(
+      element.utility.type,
+      element.quantity,
+      element.status
+    );
+    rowsUtility.push(row);
+  });
 
   return (
     <div
@@ -111,6 +88,16 @@ export default function MyRentMotel() {
         paddingBottom: "30px",
       }}
     >
+      <MockupTransfer
+        callback={setOpenMockupTransaction}
+        status={openMockupTransaction}
+        content={`Xin mời thanh toán tiền nhà hàng tháng.`}
+      />
+      <MockupTransfer
+        callback={setOpenMockupReport}
+        status={openMockupReport}
+        content={`Xin mời báo cáo tình trạng thiết bị.`}
+      />
       <Typography
         align="center"
         variant="h3"
@@ -183,7 +170,7 @@ export default function MyRentMotel() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {rowsUtility.map((row) => (
                 <StyledTableRow key={row.name}>
                   <StyledTableCell component="th" scope="row">
                     {row.name}
@@ -200,6 +187,7 @@ export default function MyRentMotel() {
         <Button
           variant="contained"
           sx={{ marginTop: "15px", marginRight: "20px" }}
+          onClick={() => setOpenMockupTransaction(true)}
         >
           <CurrencyExchangeIcon></CurrencyExchangeIcon>
         </Button>
@@ -215,7 +203,11 @@ export default function MyRentMotel() {
         >
           <ThreePIcon></ThreePIcon>
         </Button>
-        <Button variant="contained" sx={{ marginTop: "15px" }}>
+        <Button
+          variant="contained"
+          sx={{ marginTop: "15px" }}
+          onClick={() => setOpenMockupReport(true)}
+        >
           <ReportIcon></ReportIcon>
         </Button>
       </div>
