@@ -68,24 +68,6 @@ input[type="submit"]:hover {
   height: 270px;
 }
 
-.item-home-page-red {
-  width: 230px;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color: rgb(212, 117, 117);
-  background-clip: border-box;
-  border: 2px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.4rem;
-  height: 270px;
-}
-
-.item-home-page-red:hover {
-  cursor: pointer;
-}
-
 .item-home-page:hover {
   cursor: pointer;
 }

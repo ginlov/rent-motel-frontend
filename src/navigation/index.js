@@ -15,6 +15,8 @@ import RenterLayout from "../layout/RenterLayout";
 import WelcomeLayout from "../layout/WelcomLayout";
 import ItemRenter from "../screen/ItemRenter";
 import AdminLayout from "../layout/AdminLayout";
+import LoginAdmin from "../screen/AdminPage/LoginAdmin";
+import ItemAdmin from "../screen/ItemAdmin";
 
 export default function RootRouter() {
   return (
@@ -99,6 +101,22 @@ export default function RootRouter() {
           element={
             <AdminLayout>
               <AdminPage />
+            </AdminLayout>
+          }
+        ></Route>
+        <Route
+          path="/admin/login"
+          element={
+            <AdminLayout>
+              <LoginAdmin />
+            </AdminLayout>
+          }
+        ></Route>
+        <Route
+          path="/itemAdmin/:id"
+          element={
+            <AdminLayout>
+              <ItemAdmin />
             </AdminLayout>
           }
         ></Route>

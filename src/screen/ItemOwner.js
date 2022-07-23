@@ -108,6 +108,7 @@ export default function ItemOwner() {
               axios.patch(`/motels/${id}`, {
                 requestPublic: true,
               });
+              alert("Đã thông tin tới quản trị viên.");
               window.location.reload();
             } catch (error) {
               console.log(error);
@@ -209,7 +210,6 @@ export default function ItemOwner() {
           <div className={styles.item_information_right}>
             <div className={styles.item_info}>
               <PersonIcon></PersonIcon>
-              {motelDetail.renterMotel}
             </div>
             <div className={styles.item_info}>
               <BoltIcon></BoltIcon>

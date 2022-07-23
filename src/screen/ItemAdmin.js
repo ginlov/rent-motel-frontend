@@ -19,18 +19,18 @@ import { useParams } from "react-router-dom";
 import axios from "../api";
 import MockupAddUtility from "../component/MockupAddUtility";
 import style from "./style.module.css";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import DeleteIcon from "@mui/icons-material/Delete";
+import HandymanIcon from "@mui/icons-material/Handyman";
+import FeedIcon from "@mui/icons-material/Feed";
 import AddIcon from "@mui/icons-material/Add";
 import BoltIcon from "@mui/icons-material/Bolt";
 import WaterIcon from "@mui/icons-material/Water";
+import PersonIcon from "@mui/icons-material/Person";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import PaidIcon from "@mui/icons-material/Paid";
 import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
-import ForumIcon from "@mui/icons-material/Forum";
-import ThreePIcon from "@mui/icons-material/ThreeP";
 import MockupAdmin from "../component/MockupAdmin";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
-import MockupTransfer from "../component/MockupTransfer";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -56,65 +56,85 @@ function createDataUtility(name, quantity, status) {
   return { name, quantity, status };
 }
 
-export default function ItemOwner() {
-  const [openMockupAdmin, setOpenMockupAdmin] = React.useState(false);
-  const [motelDetail, setMotelDetail] = React.useState("1");
+export default function ItemAdmin() {
+  const [renter, setRenter] = React.useState();
+  const [openFormEdit, setOpenFormEdit] = React.useState(false);
+  const [openConfirmMockup, setOpenConfirmMockup] = React.useState(false);
+  const [motelDetail, setMotelDetail] = React.useState();
+  const [openAddMockup, setOpenAddMockup] = React.useState(false);
+  const [openConfirmMockupPublicMotel, setOpenConfirmMockupPublicMotel] =
+    React.useState(false);
   const [statusRent, setStatusRent] = React.useState();
-  const [openMockupAccept, setOpenMockupAccept] = React.useState(false);
+  const [openMockupSetContacted, setOpenMockupSetContacted] =
+    React.useState(false);
   const { id } = useParams();
+  var rowsUtility = [];
   React.useEffect(() => {
     axios.get(`/motels/${id}`).then((response) => {
+      console.log(response.data.data);
       setMotelDetail(response.data.data);
-      if (response.data.data.renterMotel[0].status.length > 0) {
-        setStatusRent(response.data.data.renterMotel[0].status);
-      }
+      setStatusRent(response.data.data.renterMotel[0].status);
+      response.data.data.motelUtilities.forEach((element) => {
+        var row = createDataUtility(
+          element.utility.type,
+          element.quantity,
+          element.status
+        );
+        rowsUtility.push(row);
+      });
+      setRenter(response.data.data.renterMotel[0].renter);
     });
   }, []);
   if (motelDetail === undefined) {
     return <>Still loading...</>;
   }
 
-  var rowsUtility = [];
-  if (motelDetail.motelUtilities !== undefined) {
-    motelDetail.motelUtilities.forEach((element) => {
-      var row = createDataUtility(
-        element.utility.type,
-        element.quantity,
-        element.status
-      );
-      rowsUtility.push(row);
-    });
-  }
-
   return (
     <div className={style.wrap_page}>
       <div className={style.wrap_content}>
+        <MockupEditMotel
+          callback={setOpenFormEdit}
+          status={openFormEdit}
+          motelDetail={motelDetail}
+        />
         <MockupConfirm
-          callback={setOpenMockupAdmin}
-          status={openMockupAdmin}
-          content="Bạn có muốn thuê phòng trọ này không?"
-          action={() => {
+          callback={setOpenConfirmMockup}
+          status={openConfirmMockup}
+          content="Bạn có muốn xoá nhà trọ không?"
+        />
+        <MockupAddUtility
+          callback={setOpenAddMockup}
+          status={openAddMockup}
+          motelId={id}
+        />
+        <MockupAdmin
+          callback={setOpenConfirmMockupPublicMotel}
+          status={openConfirmMockupPublicMotel}
+          content="Bạn có muốn công khai phòng trọ này không?"
+          actionYes={() => {
             try {
-              axios.post(`/rent-motel/${id}`);
-              alert("Đã thông tin tới quản trị viên.");
-              setOpenMockupAdmin(false);
+              axios.post(`/motels/admin/public-motel/${id}`, {
+                isPublic: true,
+              });
               window.location.reload();
             } catch (error) {
               console.log(error);
             }
           }}
+          actionNo={() => {}}
         />
-        <MockupTransfer
-          callback={setOpenMockupAccept}
-          status={openMockupAccept}
-          content={`Bạn có muốn thuê phòng trọ này không? Nếu có xin mời thanh toán tiền cọc ${motelDetail.price}`}
-          action={() => {
+        <MockupAdmin
+          callback={setOpenMockupSetContacted}
+          status={openMockupSetContacted}
+          content="Bạn có muốn liên hệ với khách thuê phòng không?"
+          actionYes={() => {
             try {
-              // axios.post(`/rent-motel/${id}`);
-              alert(
-                "Đã thông tin tới quản trị viên. Hãy chờ quản trị viên xác nhận."
-              );
-              setOpenMockupAccept(false);
+              console.log(renter.id);
+              axios.post(`/update-contacted`, {
+                renterId: renter.id,
+                motelId: id,
+              });
+              // window.location.reload();
             } catch (error) {
               console.log(error);
             }
@@ -158,8 +178,8 @@ export default function ItemOwner() {
           <div className={styles.item_information_left}>
             <div className={styles.item_info}>
               <EditLocationAltIcon></EditLocationAltIcon>
-              {motelDetail.address?.detail}, {motelDetail.address?.ward},{" "}
-              {motelDetail.address?.district}, {motelDetail.address?.city}
+              {motelDetail.address.detail}, {motelDetail.address.ward},{" "}
+              {motelDetail.address.district}, {motelDetail.address.city}
             </div>
             <div className={styles.item_info}>
               <PaidIcon></PaidIcon>
@@ -169,8 +189,66 @@ export default function ItemOwner() {
               <SquareFootIcon></SquareFootIcon>
               {motelDetail.square}m2
             </div>
+
+            <div style={{ display: "flex", flexDimention: "row" }}>
+              <div className={styles.wrap_button}>
+                {motelDetail.requestPublic ? (
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      setOpenConfirmMockupPublicMotel(true);
+                    }}
+                  >
+                    <FeedIcon></FeedIcon>
+                  </Button>
+                ) : (
+                  <Button variant="contained" disabled>
+                    <FeedIcon></FeedIcon>
+                  </Button>
+                )}
+              </div>
+              <div className={styles.wrap_button}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setOpenFormEdit(true);
+                  }}
+                >
+                  <HandymanIcon></HandymanIcon>
+                </Button>
+              </div>
+              {statusRent == "PENDING" && (
+                <div className={styles.wrap_button}>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      setOpenMockupSetContacted(true);
+                    }}
+                  >
+                    <MeetingRoomIcon></MeetingRoomIcon>
+                  </Button>
+                </div>
+              )}
+              <div className={styles.wrap_button}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setOpenConfirmMockup(true);
+                  }}
+                  style={{
+                    backgroundColor: "red",
+                  }}
+                >
+                  <DeleteIcon></DeleteIcon>
+                </Button>
+              </div>
+            </div>
           </div>
           <div className={styles.item_information_right}>
+            <div className={styles.item_info}>
+              <PersonIcon></PersonIcon>
+              {motelDetail.renterMotel[0]?.renter.firstName || "Không có"}
+            </div>
             <div className={styles.item_info}>
               <BoltIcon></BoltIcon>
               {motelDetail.electricPrice}
@@ -193,7 +271,7 @@ export default function ItemOwner() {
               </TableHead>
               <TableBody>
                 {rowsUtility.map((row) => (
-                  <StyledTableRow key={row.name}>
+                  <StyledTableRow key={row.id}>
                     <StyledTableCell component="th" scope="row">
                       {row.name}
                     </StyledTableCell>
@@ -208,42 +286,14 @@ export default function ItemOwner() {
               </TableBody>
             </Table>
           </TableContainer>
-          {statusRent == undefined && (
-            <Button
-              variant="contained"
-              sx={{ marginTop: "15px", marginRight: "20px" }}
-              onClick={() => setOpenMockupAdmin(true)}
-            >
-              <AddShoppingCartIcon></AddShoppingCartIcon>
-            </Button>
-          )}
-          {statusRent == "PENDING" && (
-            <Button
-              variant="contained"
-              sx={{ marginTop: "15px", marginRight: "20px" }}
-              disabled
-            >
-              <AddShoppingCartIcon></AddShoppingCartIcon>
-            </Button>
-          )}
-          {statusRent == "CONTACTED" && (
-            <Button
-              variant="contained"
-              sx={{ marginTop: "15px", marginRight: "20px" }}
-              onClick={() => setOpenMockupAccept(true)}
-            >
-              <MeetingRoomIcon></MeetingRoomIcon>
-            </Button>
-          )}
-
           <Button
             variant="contained"
-            sx={{ marginTop: "15px", marginRight: "20px" }}
+            sx={{ marginTop: "15px" }}
+            onClick={() => {
+              setOpenAddMockup(true);
+            }}
           >
-            <ForumIcon></ForumIcon>
-          </Button>
-          <Button variant="contained" sx={{ marginTop: "15px" }}>
-            <ThreePIcon></ThreePIcon>
+            <AddIcon></AddIcon>
           </Button>
         </div>
       </div>
