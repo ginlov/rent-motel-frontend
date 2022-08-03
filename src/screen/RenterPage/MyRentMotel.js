@@ -176,9 +176,9 @@ export default function MyRentMotel() {
                     {row.name}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {row.calories}
+                    {row.quantity}
                   </StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                  <StyledTableCell align="right">{row.status}</StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
