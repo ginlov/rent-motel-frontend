@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState } from "react";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
@@ -8,6 +7,12 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import axios from "../api";
 import UploadImage from "./UploadImage";
+import useLocationForm from "./useLocationForm";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 async function AddMotel(
   price,
@@ -30,15 +35,18 @@ async function AddMotel(
     headers: { "Content-Type": "multipart/form-data" },
   });
   const imageUrl = responseImage.data.data.imageUrl;
+  const new_city = city.slice(city.indexOf("$") + 1);
+  const new_district = district.slice(district.indexOf("$") + 1);
+  const new_ward = ward.slice(ward.indexOf("$") + 1);
   var body = {
     price: Number(price),
     waterPrice: Number(waterPrice),
     electricPrice: Number(electricPrice),
     summary: summary,
     address: {
-      city: city,
-      district: district,
-      ward: ward,
+      city: new_city,
+      district: new_district,
+      ward: new_ward,
       detail: detail,
     },
     description: description,
@@ -85,6 +93,18 @@ export default function MockupAddMotel(props) {
   const handleClose = () => {
     props.callback(false);
   };
+
+  const { state, onCitySelect, onDistrictSelect, onWardSelect, onSubmit } =
+    useLocationForm(false);
+
+  const {
+    cityOptions,
+    districtOptions,
+    wardOptions,
+    selectedCity,
+    selectedDistrict,
+    selectedWard,
+  } = state;
 
   return (
     <Modal
@@ -146,7 +166,7 @@ export default function MockupAddMotel(props) {
             />
           </div>
           <div>
-            <TextField
+            {/* <TextField
               id="outlined-basic"
               label="Thành phố"
               variant="outlined"
@@ -169,7 +189,99 @@ export default function MockupAddMotel(props) {
               onChange={(e) => {
                 setWard(e.target.value);
               }}
-            />
+            /> */}
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl
+                fullWidth
+                sx={{
+                  width: "98%",
+                  marginLeft: "10px",
+                  marginBottom: "20px",
+                  marginTop: "10px",
+                }}
+              >
+                <InputLabel id="demo-simple-select-label">
+                  Tỉnh/Thành phố
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={city}
+                  label="Thành phố"
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    setCity(e.target.value);
+                    onCitySelect(e.target);
+                  }}
+                >
+                  {cityOptions.map((item) => (
+                    <MenuItem value={item.value + "$" + item.label}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl
+                fullWidth
+                sx={{
+                  width: "98%",
+                  marginLeft: "10px",
+                  marginBottom: "20px",
+                  marginTop: "10px",
+                }}
+              >
+                <InputLabel id="demo-simple-select-label">
+                  Quận/Huyện
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={district}
+                  label="Quận"
+                  onChange={(e) => {
+                    setDistrict(e.target.value);
+                    onDistrictSelect(e.target);
+                  }}
+                >
+                  {districtOptions.map((item) => (
+                    <MenuItem value={item.value + "$" + item.label}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl
+                fullWidth
+                sx={{
+                  width: "98%",
+                  marginLeft: "10px",
+                  marginBottom: "20px",
+                  marginTop: "10px",
+                }}
+              >
+                <InputLabel id="demo-simple-select-label">Phường/Xã</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={ward}
+                  label="Phường"
+                  onChange={(e) => {
+                    setWard(e.target.value);
+                    onWardSelect(e.target);
+                  }}
+                >
+                  {wardOptions.map((item) => (
+                    <MenuItem value={item.value + "$" + item.label}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
             <TextField
               id="outlined-basic"
               label="Số nhà, phố"

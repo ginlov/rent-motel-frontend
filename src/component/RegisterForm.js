@@ -8,7 +8,9 @@ import Button from "@mui/material/Button";
 import axios from "../api";
 import { Navigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import TextField from "@mui/material/TextField";
 import "./styles.css";
+import useLocationForm from "./useLocationForm";
 
 async function Register(
   email,
@@ -24,15 +26,18 @@ async function Register(
   fisrtName,
   lastName
 ) {
+  const new_city = city.slice(city.indexOf("$") + 1);
+  const new_district = district.slice(district.indexOf("$") + 1);
+  const new_ward = ward.slice(ward.indexOf("$") + 1);
   var body = {
     email: email,
     password: password,
     phone: phone,
     gender: gender,
     address: {
-      city: city,
-      district: district,
-      ward: ward,
+      city: new_city,
+      district: new_district,
+      ward: new_ward,
       detail: detail,
     },
     role: role,
@@ -41,8 +46,7 @@ async function Register(
   };
   console.log(body);
   const response = await axios.post("/auth/register", body);
-  console.log(response);
-  if (response.data.statusCode == 200) {
+  if (response.data.statusCode < 300) {
     console.log(response.data.statusCode);
     setIsSuccess(true);
   }
@@ -65,183 +69,271 @@ export function RegisterForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const errors = {
-    uname: "invalid username",
-    pass: "invalid password",
+  const { state, onCitySelect, onDistrictSelect, onWardSelect, onSubmit } =
+    useLocationForm(false);
+
+  const {
+    cityOptions,
+    districtOptions,
+    wardOptions,
+    selectedCity,
+    selectedDistrict,
+    selectedWard,
+  } = state;
+
+  const validateEmail = (email) => {
+    if (email == "") return true;
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
   };
 
-  // Generate JSX code for error message
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
-    );
+  const validatePhone = (phone) => {
+    if (phone == "") return true;
+    return String(phone)
+      .toLowerCase()
+      .match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
+  };
 
   // JSX code for login form
   const renderForm = (
     <div className="form">
-      <form>
-        <div className="input-container">
-          <label>Tên </label>
-          <input
-            type="text"
-            name="pass"
-            required
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="input-container">
-          <label>Họ </label>
-          <input
-            type="text"
-            name="pass"
-            required
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="input-container">
-          <label>Email </label>
-          <input
-            type="text"
-            name="uname"
-            required
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {renderErrorMessage("uname")}
-        </div>
-        <div className="input-container">
-          <label>Mật khẩu </label>
-          <input
-            type="password"
-            name="pass"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="input-container">
-          <label>Số điện thoại </label>
-          <input
-            type="text"
-            name="pass"
-            required
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
-
-        <div className="input-container">
-          <label>Thành phố </label>
-          <input
-            type="text"
-            name="pass"
-            required
-            onChange={(e) => setCity(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="input-container">
-          <label>Quận/huyện </label>
-          <input
-            type="text"
-            name="pass"
-            required
-            onChange={(e) => setDistrict(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="input-container">
-          <label>Phường/xã </label>
-          <input
-            type="text"
-            name="pass"
-            required
-            onChange={(e) => setWard(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
-        <div className="input-container">
-          <label>Số nhà + tên đường </label>
-          <input
-            type="text"
-            name="pass"
-            required
-            onChange={(e) => setDetail(e.target.value)}
-          />
-          {renderErrorMessage("pass")}
-        </div>
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl
-            fullWidth
-            sx={{
-              width: "98%",
-              marginLeft: "10px",
-              marginBottom: "20px",
-              marginTop: "10px",
+      <TextField
+        sx={{
+          width: "98%",
+          marginLeft: "10px",
+          marginBottom: "20px",
+          marginTop: "10px",
+        }}
+        required
+        label="Tên"
+        onChange={(e) => setLastName(e.target.value)}
+      />
+      <TextField
+        sx={{
+          width: "98%",
+          marginLeft: "10px",
+          marginBottom: "20px",
+          marginTop: "10px",
+        }}
+        required
+        label="Họ"
+        onChange={(e) => setFirstName(e.target.value)}
+      />
+      <TextField
+        sx={{
+          width: "98%",
+          marginLeft: "10px",
+          marginBottom: "20px",
+          marginTop: "10px",
+        }}
+        required
+        label="Email"
+        {...(!validateEmail(email) && {
+          error: true,
+          helperText: "Sai định dạng email",
+        })}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <TextField
+        sx={{
+          width: "98%",
+          marginLeft: "10px",
+          marginBottom: "20px",
+          marginTop: "10px",
+        }}
+        required
+        label="Mật khẩu"
+        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+      />
+      <TextField
+        required
+        sx={{
+          width: "98%",
+          marginLeft: "10px",
+          marginBottom: "20px",
+          marginTop: "10px",
+        }}
+        type="text"
+        {...(!validatePhone(phone) && {
+          error: true,
+          helperText: "Sai định dạng số điện thoại",
+        })}
+        label="Số điện thoại"
+        onChange={(e) => setPhone(e.target.value)}
+      />
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl
+          fullWidth
+          sx={{
+            width: "98%",
+            marginLeft: "10px",
+            marginBottom: "20px",
+            marginTop: "10px",
+          }}
+        >
+          <InputLabel id="demo-simple-select-label">Tỉnh/Thành phố</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={city}
+            label="Thành phố"
+            onChange={(e) => {
+              console.log(e.target.value);
+              setCity(e.target.value);
+              onCitySelect(e.target);
             }}
           >
-            <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={gender}
-              label="Giới tính"
-              onChange={(e) => setGender(e.target.value)}
-            >
-              <MenuItem value={"MALE"}>Nam</MenuItem>
-              <MenuItem value={"FEMALE"}>Nữ</MenuItem>
-              <MenuItem value={"OTHER"}>Khác</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <Box sx={{ minWidth: 120 }}>
-          <FormControl
-            fullWidth
-            sx={{
-              width: "98%",
-              marginLeft: "10px",
-              marginBottom: "20px",
-              marginTop: "10px",
+            {cityOptions.map((item) => (
+              <MenuItem value={item.value + "$" + item.label}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl
+          fullWidth
+          sx={{
+            width: "98%",
+            marginLeft: "10px",
+            marginBottom: "20px",
+            marginTop: "10px",
+          }}
+        >
+          <InputLabel id="demo-simple-select-label">Quận/Huyện</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={district}
+            label="Quận"
+            onChange={(e) => {
+              setDistrict(e.target.value);
+              onDistrictSelect(e.target);
             }}
           >
-            <InputLabel id="demo-simple-select-label">Vai trò</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={role}
-              label="Vai trò"
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <MenuItem value={"RENTER"}>Người thuê trọ</MenuItem>
-              <MenuItem value={"OWNER"}>Chủ nhà trọ</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <div className="button-container">
-          <Button
-            variant="contained"
-            onClick={(event) => {
-              Register(
-                email,
-                password,
-                phone,
-                gender,
-                city,
-                district,
-                ward,
-                detail,
-                role,
-                setIsSuccess,
-                firstName,
-                lastName
-              );
+            {districtOptions.map((item) => (
+              <MenuItem value={item.value + "$" + item.label}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl
+          fullWidth
+          sx={{
+            width: "98%",
+            marginLeft: "10px",
+            marginBottom: "20px",
+            marginTop: "10px",
+          }}
+        >
+          <InputLabel id="demo-simple-select-label">Phường/Xã</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={ward}
+            label="Phường"
+            onChange={(e) => {
+              setWard(e.target.value);
+              onWardSelect(e.target);
             }}
           >
-            Đăng ký
-          </Button>
-        </div>
-      </form>
+            {wardOptions.map((item) => (
+              <MenuItem value={item.value + "$" + item.label}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <TextField
+        sx={{
+          width: "98%",
+          marginLeft: "10px",
+          marginBottom: "20px",
+          marginTop: "10px",
+        }}
+        required
+        label="Số nhà + tên đường"
+        onChange={(e) => setDetail(e.target.value)}
+      />
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl
+          fullWidth
+          sx={{
+            width: "98%",
+            marginLeft: "10px",
+            marginBottom: "20px",
+            marginTop: "10px",
+          }}
+        >
+          <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={gender}
+            label="Giới tính"
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <MenuItem value={"MALE"}>Nam</MenuItem>
+            <MenuItem value={"FEMALE"}>Nữ</MenuItem>
+            <MenuItem value={"OTHER"}>Khác</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl
+          fullWidth
+          sx={{
+            width: "98%",
+            marginLeft: "10px",
+            marginBottom: "20px",
+            marginTop: "10px",
+          }}
+        >
+          <InputLabel id="demo-simple-select-label">Vai trò</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={role}
+            label="Vai trò"
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <MenuItem value={"RENTER"}>Người thuê trọ</MenuItem>
+            <MenuItem value={"OWNER"}>Chủ nhà trọ</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <div className="button-container">
+        <Button
+          variant="contained"
+          onClick={(event) => {
+            Register(
+              email,
+              password,
+              phone,
+              gender,
+              city,
+              district,
+              ward,
+              detail,
+              role,
+              setIsSuccess,
+              firstName,
+              lastName
+            );
+          }}
+        >
+          Đăng ký
+        </Button>
+      </div>
     </div>
   );
 
